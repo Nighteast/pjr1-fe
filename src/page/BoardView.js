@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Box, Spinner } from "@chakra-ui/react";
+import { Box, Divider, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
@@ -19,13 +19,18 @@ export function BoardView() {
   }
 
   return (
-    <Box>
-      <h1>글보기</h1>
-      <p>번호 : {board.id}</p>
-      <p>제목 : {board.title}</p>
-      <p>본문 : {board.content}</p>
-      <p>작성자 : {board.writer}</p>
-      <p>작성일시 : {board.inserted}</p>
+    <Box p={6}>
+      <VStack spacing={4} align="start">
+        <Heading as="h1" size="xl">
+          글보기
+        </Heading>
+        <Divider />
+        <Text>번호 : {board.id}</Text>
+        <Text>제목 : {board.title}</Text>
+        <Text>본문 : {board.content}</Text>
+        <Text>작성자 : {board.writer}</Text>
+        <Text>작성일시 : {board.inserted}</Text>
+      </VStack>
     </Box>
   );
 }
