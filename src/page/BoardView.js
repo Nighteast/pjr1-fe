@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
-  Divider,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
-  Text,
   Textarea,
+  useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -27,6 +40,25 @@ export function BoardView() {
 
   if (board === null) {
     return <Spinner />;
+  }
+
+  function handleDelete() {
+    axios
+      .delete("/api/board/remove/" + id)
+      .then((response) => {
+        toast({
+          description: id + "번 게시물이 삭제되었습니다.",
+          status: "success",
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        toast({
+          description: "삭제 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
+      .finally(() => onClose());
   }
 
   return (
@@ -51,6 +83,27 @@ export function BoardView() {
           <FormLabel>작성일시</FormLabel>
           <Input value={board.inserted} readOnly />
         </FormControl>
+        <Flex gap={"10px"}>
+          <Button colorScheme="purple">수정</Button>
+          <Button colorScheme="red" onClick={onOpen}>
+            삭제
+          </Button>
+          {/* 삭제 모달 */}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>삭제 확인</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>삭제 하시겠습니까?</ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>닫기</Button>
+                <Button onClick={handleDelete} colorScheme="red">
+                  삭제
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Flex>
       </VStack>
     </Box>
   );
