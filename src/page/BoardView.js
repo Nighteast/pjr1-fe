@@ -26,24 +26,33 @@ import {
 export function BoardView() {
   const [board, setBoard] = useState(null);
 
+  // useDisclosure : Chakra UI의 Hook으로 다이얼로그, 모달, 팝업창 등의 상태와 이벤트 처리 관리
+  // isOpen: 모달/다이얼로그 열려 있는지 여부(열릴때 true, 닫힐때 false)
+  // onOpen/onClose : 각각 호출 시 모달 열림/닫힘
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  // navigate 라우터 내에서 다른 경로로 이동하게 도와주는 hook
   const navigate = useNavigate();
 
+  // URL의 동적 경로 매개변수(dynamic path parameter)를 추출하는 코드
   const { id } = useParams();
 
+  // 초기 랜더링 시 id에 해당하는 게시물 데이터 가져와서 한 페이지 보기
   useEffect(() => {
     axios
       .get("/api/board/id/" + id)
       .then((response) => setBoard(response.data));
   }, []);
 
+  // board가 null일때 스피너 돌리기
   if (board === null) {
     return <Spinner />;
   }
 
+  // 삭제 버튼 온 클릭시 함수
   function handleDelete() {
     axios
+      // delete요청 보내기
       .delete("/api/board/remove/" + id)
       .then((response) => {
         toast({
@@ -63,6 +72,7 @@ export function BoardView() {
 
   return (
     <Box p={6}>
+      {/* 세로로 요소 정렬하고 간격 조절, align은 요소를 수직정렬, start는 위에서 아래로 */}
       <VStack spacing={4} align="start">
         <Heading as="h1" size="xl">
           {board.id}번 글 보기

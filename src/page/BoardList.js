@@ -17,6 +17,7 @@ export function BoardList() {
 
   const navigate = useNavigate();
 
+  // 초기 렌더링 시 게시물 리스트 가져오기
   useEffect(() => {
     axios
       .get("/api/board/list")
@@ -31,7 +32,7 @@ export function BoardList() {
     <Box>
       <h1>게시물 목록</h1>
       <Box>
-        <Table>
+        <Table variant={"simple"}>
           <Thead>
             <Tr>
               <Th>id</Th>
@@ -41,10 +42,12 @@ export function BoardList() {
             </Tr>
           </Thead>
           <Tbody>
+            {/* boardList 배열 내의 각 요소를 순회하면서 각 요소에 대한 UI를 생성 */}
             {boardList.map((board) => (
               <Tr
                 _hover={{
                   cursor: "pointer",
+                  background: "cornsilk",
                 }}
                 key={board.id}
                 onClick={() => navigate("/board/" + board.id)}
