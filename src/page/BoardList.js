@@ -34,8 +34,10 @@ export function BoardList() {
             </Tr>
           </Thead>
           <Tbody>
-            {boardList || <Spinner />}
-            {boardList &&
+            {boardList === null ? (
+              <Spinner />
+            ) : (
+              boardList &&
               boardList.map((board) => (
                 <Tr>
                   <Td>{board.id}</Td>
@@ -43,7 +45,8 @@ export function BoardList() {
                   <Td>{board.writer}</Td>
                   <Td>{board.inserted}</Td>
                 </Tr>
-              ))}
+              ))
+            )}
           </Tbody>
         </Table>
       </Box>
