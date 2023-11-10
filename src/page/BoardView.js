@@ -72,7 +72,10 @@ export function BoardView() {
   }
 
   // LocalDateTime을 원하는 형식으로 포맷
-  const formattedDate = format(new Date(board.inserted), "yyyy-MM-dd HH:mm:ss");
+  const formattedDate = format(
+    new Date(board.inserted),
+    "yyyy년 MM월 dd일 HH:mm:ss",
+  );
 
   return (
     <Box p={6}>
