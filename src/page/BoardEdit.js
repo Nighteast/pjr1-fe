@@ -29,14 +29,6 @@ export function BoardEdit() {
     return <Spinner />;
   }
 
-  // 보드 업데이트 함수로 useImmer update사용
-  //
-  const handleBoardUpdate = (e) => {
-    updateBoard((draft) => {
-      draft.field = e.target.value;
-    });
-  };
-
   return (
     <Box>
       <h1>{id}번 글 수정</h1>
