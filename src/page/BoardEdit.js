@@ -12,9 +12,10 @@ import React, { useEffect } from "react";
 import axios from "axios";
 
 export function BoardEdit() {
+  // useImmer 사용, 상태를 생성
   const [board, updateBoard] = useImmer(null);
 
-  // /edit/:id 이므로 useParams로 경로에서 가져옴
+  // /edit/:id 이므로 useParams로 URL에서 게시글 ID가져오기
   const { id } = useParams();
 
   useEffect(() => {
@@ -23,8 +24,17 @@ export function BoardEdit() {
       .then((response) => updateBoard(response.data));
   }, []);
 
+  // 게시글을 로딩중이라면 스피너 돌리기
   if (board === null) {
     return <Spinner />;
+  }
+
+  // 보드 업데이트 함수로 useImmer update사용
+  //
+  function handleBoardUpdate(e, field) {
+    updateBoard((draft) => {
+      draft[field] = e.target.value;
+    });
   }
 
   return (
@@ -32,15 +42,24 @@ export function BoardEdit() {
       <h1>{id}번 글 수정</h1>
       <FormControl>
         <FormLabel>제목</FormLabel>
-        <Input value={board.title} />
+        <Input
+          value={board.title}
+          onChange={(e) => handleBoardUpdate(e, "title")}
+        />
       </FormControl>
       <FormControl>
         <FormLabel>본문</FormLabel>
-        <Textarea value={board.content} />
+        <Textarea
+          value={board.content}
+          onChange={(e) => handleBoardUpdate(e, "content")}
+        />
       </FormControl>
       <FormControl>
         <FormLabel>작성자</FormLabel>
-        <Input value={board.writer} />
+        <Input
+          value={board.writer}
+          onChange={(e) => handleBoardUpdate(e, "writer")}
+        />
       </FormControl>
     </Box>
   );
