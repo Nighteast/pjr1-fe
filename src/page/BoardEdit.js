@@ -111,7 +111,7 @@ export function BoardEdit() {
         수정
       </Button>
       {/* 모달 버튼 작성 */}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
         <ModalOverlay>
           <ModalContent>
             <ModalHeader>수정완료</ModalHeader>
