@@ -15,6 +15,9 @@ export function NavBar() {
       <Button colorScheme="facebook" onClick={() => navigate("/signup")}>
         signup
       </Button>
+      <Button colorScheme="facebook" onClick={() => navigate("/member/list")}>
+        memberList
+      </Button>
     </Flex>
   );
 }
