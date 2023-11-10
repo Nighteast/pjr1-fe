@@ -13,6 +13,7 @@ import {
   Spinner,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
@@ -31,6 +32,8 @@ export function BoardEdit() {
   // 모달에 사용할 disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const toast = useToast();
+
   useEffect(() => {
     axios
       .get("/api/board/id/" + id)
@@ -47,8 +50,27 @@ export function BoardEdit() {
     // PUT /api/board/edit (업데이트 시 PUT, PATCH 방식이 주로 쓰인다)
     axios
       .put("/api/board/edit", board)
-      .then(() => console.log("잘됨"))
-      .catch(() => console.log("error"))
+      .then(() => {
+        toast({
+          description: board.id + "번 게시글이 수정되었습니다.",
+          status: "success",
+        });
+
+        navigate("/board/" + id);
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          toast({
+            description: "요청이 잘못되었습니다.",
+            status: "error",
+          });
+        } else {
+          toast({
+            description: "수정 중에 문제가 발생하였습니다.",
+            status: "error",
+          });
+        }
+      })
       .finally(() => console.log("끝"));
   }
 
