@@ -22,6 +22,7 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
+import { format } from "date-fns";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
@@ -70,6 +71,9 @@ export function BoardView() {
       .finally(() => onClose());
   }
 
+  // LocalDateTime을 원하는 형식으로 포맷
+  const formattedDate = format(new Date(board.inserted), "yyyy-MM-dd HH:mm:ss");
+
   return (
     <Box p={6}>
       {/* 세로로 요소 정렬하고 간격 조절, align은 요소를 수직정렬, start는 위에서 아래로 */}
@@ -91,7 +95,7 @@ export function BoardView() {
         </FormControl>
         <FormControl>
           <FormLabel>작성일시</FormLabel>
-          <Input value={board.inserted} readOnly />
+          <Input value={formattedDate} readOnly />
         </FormControl>
         <Flex gap={"10px"}>
           <Button colorScheme="purple" onClick={() => navigate("/edit/" + id)}>

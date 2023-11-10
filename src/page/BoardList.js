@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 export function BoardList() {
   const [boardList, setBoardList] = useState(null);
@@ -27,6 +28,11 @@ export function BoardList() {
   if (boardList === null) {
     return <Spinner />;
   }
+
+  // localdatetime을 원하는 형식으로 변환하는 함수
+  const formatLocalDateTime = (datetime) => {
+    return format(new Date(datetime), "yyyy-MM-dd HH:mm:ss");
+  };
 
   return (
     <Box>
@@ -55,7 +61,7 @@ export function BoardList() {
                 <Td>{board.id}</Td>
                 <Td>{board.title}</Td>
                 <Td>{board.writer}</Td>
-                <Td>{board.inserted}</Td>
+                <Td>{formatLocalDateTime(board.inserted)}</Td>
               </Tr>
             ))}
           </Tbody>
