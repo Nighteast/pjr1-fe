@@ -4,8 +4,15 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Spinner,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
@@ -20,6 +27,9 @@ export function BoardEdit() {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  // 모달에 사용할 disclosure
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     axios
@@ -78,9 +88,24 @@ export function BoardEdit() {
           }}
         />
       </FormControl>
-      <Button colorScheme="blue" onClick={handleSubmit}>
-        저장
+      <Button colorScheme="blue" onClick={onOpen}>
+        수정
       </Button>
+      {/* 모달 버튼 작성 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay>
+          <ModalContent>
+            <ModalHeader>수정완료</ModalHeader>
+            <ModalBody>수정 하시겠습니까?</ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" onClick={handleSubmit}>
+                수정
+              </Button>
+              <Button onClick={onClose}>닫기</Button>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      </Modal>
       {/* navigate(-1) 이전경로, -2는 2페이지 전 경로, +1은 다음 경로 */}
       <Button onClick={() => navigate(-1)}>취소</Button>
     </Box>
