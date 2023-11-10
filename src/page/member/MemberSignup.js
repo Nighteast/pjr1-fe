@@ -17,11 +17,16 @@ export function MemberSignup() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [email, setEmail] = useState("");
   const [idAvailable, setIdAvailable] = useState(false);
+  const [emailAvailable, setEmailAvailable] = useState(false);
 
   const toast = useToast();
 
   // submitAvailable이 true 일때만 버튼이 활성화 되게 한다.
   let submitAvailable = true;
+
+  if (!emailAvailable) {
+    submitAvailable = false;
+  }
 
   // id 중복체크가 안 될 경우 제출 할 수 없다.
   if (!idAvailable) {
@@ -74,6 +79,30 @@ export function MemberSignup() {
       });
   }
 
+  function handleEmailCheck() {
+    const params = new URLSearchParams();
+    params.set("email", email);
+
+    axios
+      .get("api/member/check?" + params.toString())
+      .then(() => {
+        setEmailAvailable(false);
+        toast({
+          description: "이미 사용 중인 이메일입니다.",
+          status: "warning",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          setEmailAvailable(true);
+          toast({
+            description: "사용 가능한 이메일 입니다.",
+            status: "success",
+          });
+        }
+      });
+  }
+
   return (
     <Box m={"10px"}>
       <h1>회원 가입</h1>
@@ -109,13 +138,20 @@ export function MemberSignup() {
         />
         <FormErrorMessage>암호가 다릅니다.</FormErrorMessage>
       </FormControl>
-      <FormControl>
+      <FormControl isInvalid={!emailAvailable}>
         <FormLabel>email</FormLabel>
-        <Input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <Flex>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmailAvailable(false);
+              setEmail(e.target.value);
+            }}
+          />
+          <Button onClick={handleEmailCheck}>중복체크</Button>
+        </Flex>
+        <FormErrorMessage>email 중복 체크를 해주세요.</FormErrorMessage>
       </FormControl>
       <Button
         isDisabled={!submitAvailable}
