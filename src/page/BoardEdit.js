@@ -32,6 +32,16 @@ export function BoardEdit() {
     return <Spinner />;
   }
 
+  function handleSubmit() {
+    // 저장 버튼 클릭 시
+    // PUT /api/board/edit (업데이트 시 PUT, PATCH 방식이 주로 쓰인다)
+    axios
+      .put("/api/board/edit", board)
+      .then(() => console.log("잘됨"))
+      .catch(() => console.log("error"))
+      .finally(() => console.log("끝"));
+  }
+
   return (
     <Box>
       <h1>{id}번 글 수정</h1>
@@ -68,7 +78,9 @@ export function BoardEdit() {
           }}
         />
       </FormControl>
-      <Button colorScheme="blue">저장</Button>
+      <Button colorScheme="blue" onClick={handleSubmit}>
+        저장
+      </Button>
       {/* navigate(-1) 이전경로, -2는 2페이지 전 경로, +1은 다음 경로 */}
       <Button onClick={() => navigate(-1)}>취소</Button>
     </Box>
