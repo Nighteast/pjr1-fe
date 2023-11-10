@@ -1,12 +1,13 @@
 import {
   Box,
+  Button,
   FormControl,
   FormLabel,
   Input,
   Spinner,
   Textarea,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import React, { useEffect } from "react";
 import axios from "axios";
@@ -17,6 +18,8 @@ export function BoardEdit() {
 
   // /edit/:id 이므로 useParams로 URL에서 게시글 ID가져오기
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -65,6 +68,9 @@ export function BoardEdit() {
           }}
         />
       </FormControl>
+      <Button colorScheme="blue">저장</Button>
+      {/* navigate(-1) 이전경로, -2는 2페이지 전 경로, +1은 다음 경로 */}
+      <Button onClick={() => navigate(-1)}>취소</Button>
     </Box>
   );
 }
