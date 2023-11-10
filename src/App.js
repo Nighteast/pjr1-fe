@@ -9,6 +9,7 @@ import { HomeLayout } from "./layout/HomeLayout";
 import { BoardList } from "./page/BoardList";
 import { BoardWrite } from "./page/BoardWrite";
 import { BoardView } from "./page/BoardView";
+import { BoardEdit } from "./page/BoardEdit";
 
 // router 생성
 const routes = createBrowserRouter(
@@ -20,6 +21,7 @@ const routes = createBrowserRouter(
       <Route path="write" element={<BoardWrite />} />
       {/* "/:"는 동적 매개변수를 지정, URL에서 id 파라미터 값을 캡쳐한다. */}
       <Route path="board/:id" element={<BoardView />} />
+      <Route path="edit/:id" element={<BoardEdit />} />
     </Route>,
   ),
 );
