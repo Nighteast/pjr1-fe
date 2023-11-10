@@ -6,10 +6,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { HomeLayout } from "./layout/HomeLayout";
-import { BoardList } from "./page/BoardList";
-import { BoardWrite } from "./page/BoardWrite";
-import { BoardView } from "./page/BoardView";
-import { BoardEdit } from "./page/BoardEdit";
+import { BoardList } from "./page/board/BoardList";
+import { BoardWrite } from "./page/board/BoardWrite";
+import { BoardView } from "./page/board/BoardView";
+import { BoardEdit } from "./page/board/BoardEdit";
+import { MemberSignup } from "./page/member/MemberSignup";
 
 // router 생성
 const routes = createBrowserRouter(
@@ -22,6 +23,7 @@ const routes = createBrowserRouter(
       {/* "/:"는 동적 매개변수를 지정, URL에서 id 파라미터 값을 캡쳐한다. */}
       <Route path="board/:id" element={<BoardView />} />
       <Route path="edit/:id" element={<BoardEdit />} />
+      <Route path="signup" element={<MemberSignup />} />
     </Route>,
   ),
 );
