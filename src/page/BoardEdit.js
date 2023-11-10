@@ -26,13 +26,10 @@ export function BoardEdit() {
 
   // /edit/:id 이므로 useParams로 URL에서 게시글 ID가져오기
   const { id } = useParams();
-
   const navigate = useNavigate();
-
+  const toast = useToast();
   // 모달에 사용할 disclosure
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const toast = useToast();
 
   useEffect(() => {
     axios
@@ -71,7 +68,7 @@ export function BoardEdit() {
           });
         }
       })
-      .finally(() => console.log("끝"));
+      .finally(() => onClose());
   }
 
   return (
