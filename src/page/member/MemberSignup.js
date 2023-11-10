@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
@@ -16,6 +17,8 @@ export function MemberSignup() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [email, setEmail] = useState("");
   const [idAvailable, setIdAvailable] = useState(false);
+
+  const toast = useToast();
 
   // submitAvailable이 true 일때만 버튼이 활성화 되게 한다.
   let submitAvailable = true;
@@ -55,10 +58,18 @@ export function MemberSignup() {
       .get("/api/member/check?" + searchParam.toString())
       .then(() => {
         setIdAvailable(false);
+        toast({
+          description: "이미 사용 중인 ID입니다.",
+          status: "warning",
+        });
       })
       .catch((error) => {
         if (error.response.status === 404) {
           setIdAvailable(true);
+          toast({
+            description: "사용 가능한 ID입니다.",
+            status: "success",
+          });
         }
       });
   }
