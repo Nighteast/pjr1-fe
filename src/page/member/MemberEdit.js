@@ -130,7 +130,7 @@ export function MemberEdit() {
 
   // 수정 버튼 클릭시 요청, 성공, 오류, 최종
   function handleSubmit() {
-    // put /api/member/edit {id, password, email}
+    // put /api/member/edit {id, password, nickName, email}
 
     axios
       .put("/api/member/edit", { id: member.id, password, nickName, email })
