@@ -5,7 +5,7 @@ export function NavBar() {
   const navigate = useNavigate();
 
   return (
-    <Flex gap={"10px"}>
+    <Flex gap={"10px"} m={"10px"}>
       <Button colorScheme="facebook" onClick={() => navigate("/")}>
         home
       </Button>
