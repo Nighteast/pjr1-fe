@@ -133,7 +133,7 @@ export function MemberEdit() {
     // put /api/member/edit {id, password, email}
 
     axios
-      .put("/api/member/edit", { id: member.id, password, email })
+      .put("/api/member/edit", { id: member.id, password, nickName, email })
       .then(() => {
         toast({
           description: "회원정보가 수정되었습니다.",
