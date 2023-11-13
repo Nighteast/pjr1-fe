@@ -16,8 +16,10 @@ export function MemberSignup() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
+  const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
   const [idAvailable, setIdAvailable] = useState(false);
+  const [nickNameAvailable, setNickNameAvailable] = useState(false);
   const [emailAvailable, setEmailAvailable] = useState(false);
 
   const toast = useToast();
@@ -31,7 +33,7 @@ export function MemberSignup() {
   }
 
   // id 중복체크가 안 될 경우 제출 할 수 없다.
-  if (!idAvailable) {
+  if (!idAvailable && !nickNameAvailable) {
     submitAvailable = false;
   }
 
@@ -101,6 +103,30 @@ export function MemberSignup() {
       });
   }
 
+  function handleNickNameCheck() {
+    const params = new URLSearchParams();
+    params.set("nickName", nickName);
+
+    axios
+      .get("/api/member/check?" + params.toString())
+      .then(() => {
+        setNickNameAvailable(false);
+        toast({
+          description: "이미 사용중인 닉네임입니다.",
+          status: "warning",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          setNickNameAvailable(true);
+          toast({
+            description: "사용 가능한 닉네임입니다.",
+            status: "success",
+          });
+        }
+      });
+  }
+
   function handleEmailCheck() {
     const params = new URLSearchParams();
     params.set("email", email);
@@ -128,6 +154,8 @@ export function MemberSignup() {
   return (
     <Box m={"10px"}>
       <h1>회원 가입</h1>
+
+      {/* ID */}
       <FormControl isInvalid={!idAvailable}>
         <FormLabel>id</FormLabel>
         <Flex>
@@ -142,6 +170,8 @@ export function MemberSignup() {
         </Flex>
         <FormErrorMessage>중복 체크를 해주세요.</FormErrorMessage>
       </FormControl>
+
+      {/* password */}
       <FormControl isInvalid={password.length === 0}>
         <FormLabel>password</FormLabel>
         <Input
@@ -151,6 +181,8 @@ export function MemberSignup() {
         />
         <FormErrorMessage>암호를 입력해 주세요.</FormErrorMessage>
       </FormControl>
+
+      {/* passwordCheck */}
       <FormControl isInvalid={password != passwordCheck}>
         <FormLabel>password 확인</FormLabel>
         <Input
@@ -160,6 +192,23 @@ export function MemberSignup() {
         />
         <FormErrorMessage>암호가 다릅니다.</FormErrorMessage>
       </FormControl>
+
+      {/* nickName */}
+      <FormControl isInvalid={!nickNameAvailable}>
+        <FormLabel>nickName</FormLabel>
+        <Flex>
+          <Input
+            value={nickName}
+            onChange={(e) => {
+              setNickName(e.target.value);
+            }}
+          />
+          <Button onClick={handleNickNameCheck}>중복확인</Button>
+        </Flex>
+        <FormErrorMessage>중복 체크를 해주세요.</FormErrorMessage>
+      </FormControl>
+
+      {/* email */}
       <FormControl isInvalid={!emailAvailable}>
         <FormLabel>email</FormLabel>
         <Flex>
@@ -175,6 +224,7 @@ export function MemberSignup() {
         </Flex>
         <FormErrorMessage>email 중복 체크를 해주세요.</FormErrorMessage>
       </FormControl>
+
       <Button
         isDisabled={!submitAvailable}
         onClick={handleSubmit}
