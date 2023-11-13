@@ -10,14 +10,31 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function MemberList() {
   const [list, setList] = useState(null);
 
-  useEffect(() => {}, []);
-  axios.get("/api/member/list").then((response) => setList(response.data));
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("/api/member/list")
+      .then((response) => setList(response.data))
+      .catch(console.log("error"))
+      .finally(console.log("끝"));
+  }, []);
+
   if (list === null) {
     return <Spinner />;
+  }
+
+  // 회원 목록 row 클릭 함수
+  function handleTableRowClick(id) {
+    const params = new URLSearchParams();
+    params.set("id", id);
+    // /member?id=id
+    navigate("/member?" + params.toString());
   }
 
   return (
@@ -33,7 +50,14 @@ export function MemberList() {
         </Thead>
         <Tbody>
           {list.map((member) => (
-            <Tr key={member.id}>
+            <Tr
+              onClick={() => handleTableRowClick(member.id)}
+              key={member.id}
+              _hover={{
+                cursor: "pointer",
+                backgroundColor: "cornsilk",
+              }}
+            >
               <Td>{member.id}</Td>
               <Td>{member.password}</Td>
               <Td>{member.email}</Td>
