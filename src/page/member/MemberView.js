@@ -78,14 +78,25 @@ export function MemberView() {
   return (
     <Box>
       <h1>{member.id} 님 정보</h1>
+
+      {/* password */}
       <FormControl>
         <FormLabel>password</FormLabel>
         <Input type="text" value={member.password} readOnly />
       </FormControl>
+
+      {/* nickName */}
+      <FormControl>
+        <FormLabel>nickName</FormLabel>
+        <Input type="text" value={member.nickName} readOnly />
+      </FormControl>
+
+      {/* email */}
       <FormControl>
         <FormLabel>email</FormLabel>
         <Input type="text" value={member.email} readOnly />
       </FormControl>
+
       <Button
         onClick={() => navigate("/member/edit?" + params.toString())}
         colorScheme="purple"
