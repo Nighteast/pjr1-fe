@@ -16,7 +16,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { id } from "date-fns/locale";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -87,7 +86,13 @@ export function MemberView() {
         <FormLabel>email</FormLabel>
         <Input type="text" value={member.email} readOnly />
       </FormControl>
-      <Button colorScheme="purple">수정</Button>
+      <Button
+        onClick={() => navigate("/member/edit?" + params.toString())}
+        colorScheme="purple"
+      >
+        수정
+      </Button>
+
       <Button onClick={onOpen} colorScheme="red">
         탈퇴
       </Button>
