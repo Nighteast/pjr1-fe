@@ -32,8 +32,8 @@ export function MemberSignup() {
     submitAvailable = false;
   }
 
-  // id 중복체크가 안 될 경우 제출 할 수 없다.
-  if (!idAvailable && !nickNameAvailable) {
+  // id, nickName 중 하나라도 중복체크가 안 될 경우 제출 할 수 없다.
+  if (!idAvailable || !nickNameAvailable) {
     submitAvailable = false;
   }
 
@@ -49,6 +49,7 @@ export function MemberSignup() {
       .post("/api/member/signup", {
         id,
         password,
+        nickName,
         email,
       })
       .then(() => {
