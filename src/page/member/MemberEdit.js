@@ -8,6 +8,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -17,6 +18,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Stack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -159,9 +161,9 @@ export function MemberEdit() {
   }
 
   return (
-    <Box>
-      <h1>{id}님 정보 수정</h1>
-      <FormControl>
+    <Stack spacing={"4"}>
+      <Heading mx={"auto"}>{id}님 정보 수정</Heading>
+      <FormControl mx={"auto"} width={"lg"}>
         <FormLabel>password</FormLabel>
         <Input
           type="text"
@@ -172,7 +174,7 @@ export function MemberEdit() {
       </FormControl>
 
       {password.length > 0 && (
-        <FormControl>
+        <FormControl mx={"auto"} width={"lg"}>
           <FormLabel>password 확인</FormLabel>
           <Input
             type="text"
@@ -184,7 +186,7 @@ export function MemberEdit() {
 
       {/*  nickName을 변경하면(작성시작) 중복확인 다시 하도록  */}
       {/*  기존 nickName과 같으면 중복확인 안해도됨 */}
-      <FormControl>
+      <FormControl mx={"auto"} width={"lg"}>
         <FormLabel>nickName</FormLabel>
         <Flex>
           <Input
@@ -203,7 +205,7 @@ export function MemberEdit() {
 
       {/*  email을 변경하면(작성시작) 중복확인 다시 하도록  */}
       {/*  기존 email과 같으면 중복확인 안해도됨 */}
-      <FormControl>
+      <FormControl mx={"auto"} width={"lg"}>
         <FormLabel>email</FormLabel>
         <Flex>
           <Input
@@ -219,14 +221,16 @@ export function MemberEdit() {
           </Button>
         </Flex>
       </FormControl>
-
-      <Button
-        isDisabled={!emailChecked || !passwordChecked || !nickNameChecked}
-        colorScheme="blue"
-        onClick={onOpen}
-      >
-        수정
-      </Button>
+      <Box mx={"auto"} width={"lg"} border={"1px solid black"}>
+        <Button
+          width={"100%"}
+          isDisabled={!emailChecked || !passwordChecked || !nickNameChecked}
+          colorScheme="blue"
+          onClick={onOpen}
+        >
+          수정
+        </Button>
+      </Box>
 
       {/* 수정 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -243,6 +247,6 @@ export function MemberEdit() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </Stack>
   );
 }
