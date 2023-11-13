@@ -202,6 +202,7 @@ export function MemberSignup() {
             value={nickName}
             onChange={(e) => {
               setNickName(e.target.value);
+              setNickNameAvailable(false);
             }}
           />
           <Button onClick={handleNickNameCheck}>중복확인</Button>
