@@ -219,7 +219,7 @@ export function MemberEdit() {
       </FormControl>
 
       <Button
-        isDisabled={!emailChecked || !passwordChecked}
+        isDisabled={!emailChecked || !passwordChecked || !nickNameChecked}
         colorScheme="blue"
         onClick={onOpen}
       >
