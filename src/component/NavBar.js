@@ -5,12 +5,12 @@ import { useContext } from "react";
 import { LoginContext } from "../App";
 
 export function NavBar() {
-  const { fetchLogin, login, isAuthenticated } = useContext(LoginContext);
+  const { fetchLogin, login, isAuthenticated, isAdmin } =
+    useContext(LoginContext);
   const toast = useToast();
   const navigate = useNavigate();
 
   function handleLogout() {
-    // TODO : 로그아웃 후 할 일 추가
     axios
       .post("/api/member/logout")
       .then(() => {
@@ -38,7 +38,7 @@ export function NavBar() {
           signup
         </Button>
       )}
-      {isAuthenticated() && (
+      {isAdmin() && (
         <Button colorScheme="facebook" onClick={() => navigate("/member/list")}>
           회원목록
         </Button>

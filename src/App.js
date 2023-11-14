@@ -56,6 +56,19 @@ function App(props) {
     return login !== "";
   }
 
+  // 권한 확인
+  function isAdmin() {
+    if (login.auth) {
+      return login.auth.some((elem) => elem.name === "admin");
+    } else {
+      return false;
+    }
+  }
+
+  // function hasAuth(auth) {
+  //   return login.auth.some((elem) => elem.name === auth);
+  // }
+
   // 자기가 쓴 글이면 보이기, 아니면 안 보이기
   function hasAccess(userId) {
     return login.id === userId;
@@ -66,7 +79,7 @@ function App(props) {
   return (
     /* 로그인 컨텍스트 제공 */
     <LoginContext.Provider
-      value={{ login, fetchLogin, isAuthenticated, hasAccess }}
+      value={{ login, fetchLogin, isAuthenticated, hasAccess, isAdmin }}
     >
       {/* 라우터 제공하기 */}
       <RouterProvider router={routes} />;
