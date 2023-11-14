@@ -43,12 +43,12 @@ export function NavBar() {
           회원목록
         </Button>
       )}
-      {isAuthenticated || (
+      {isAuthenticated() || (
         <Button colorScheme="facebook" onClick={() => navigate("/login")}>
           로그인
         </Button>
       )}
-      {isAuthenticated && (
+      {isAuthenticated() && (
         <Button colorScheme="facebook" onClick={handleLogout}>
           로그아웃
         </Button>
