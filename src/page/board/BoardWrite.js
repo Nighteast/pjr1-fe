@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 export function BoardWrite() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [writer, setWriter] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
@@ -27,7 +26,6 @@ export function BoardWrite() {
       .post("/api/board/add", {
         title,
         content,
-        writer,
       })
       .then(() => {
         toast({
@@ -61,6 +59,7 @@ export function BoardWrite() {
           <FormLabel>제목</FormLabel>
           <Input value={title} onChange={(e) => setTitle(e.target.value)} />
         </FormControl>
+
         <FormControl>
           <FormLabel>본문</FormLabel>
           <Textarea
@@ -68,13 +67,7 @@ export function BoardWrite() {
             onChange={(e) => setContent(e.target.value)}
           ></Textarea>
         </FormControl>
-        <FormControl>
-          <FormLabel>작성자</FormLabel>
-          <Input
-            value={writer}
-            onChange={(e) => setWriter(e.target.value)}
-          ></Input>
-        </FormControl>
+
         <Button
           isDisabled={isSubmitting}
           onClick={handleSubmit}
