@@ -39,7 +39,7 @@ export function BoardView() {
   // URL의 동적 경로 매개변수(dynamic path parameter)를 추출하는 코드
   const { id } = useParams();
 
-  const { hasAccess } = useContext(LoginContext);
+  const { hasAccess, isAdmin } = useContext(LoginContext);
 
   // 초기 랜더링 시 id에 해당하는 게시물 데이터 가져와서 한 페이지 보기
   useEffect(() => {
@@ -109,7 +109,7 @@ export function BoardView() {
         </FormControl>
 
         <Flex gap={"10px"}>
-          {hasAccess(board.writer) && (
+          {(hasAccess(board.writer) || isAdmin(board.writer)) && (
             <Flex gap={"10px"}>
               <Button
                 colorScheme="purple"
