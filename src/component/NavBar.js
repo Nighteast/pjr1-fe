@@ -1,8 +1,13 @@
 import { Button, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export function NavBar() {
   const navigate = useNavigate();
+
+  function handleLogout() {
+    axios.post("/api/member/logout").then(() => console.log("logout success"));
+  }
 
   return (
     <Flex gap={"10px"} m={"10px"}>
@@ -20,6 +25,9 @@ export function NavBar() {
       </Button>
       <Button colorScheme="facebook" onClick={() => navigate("/login")}>
         로그인
+      </Button>
+      <Button colorScheme="facebook" onClick={handleLogout}>
+        로그아웃
       </Button>
     </Flex>
   );
