@@ -28,21 +28,31 @@ export function NavBar() {
       <Button colorScheme="facebook" onClick={() => navigate("/")}>
         home
       </Button>
-      <Button colorScheme="facebook" onClick={() => navigate("/write")}>
-        write
-      </Button>
-      <Button colorScheme="facebook" onClick={() => navigate("/signup")}>
-        signup
-      </Button>
-      <Button colorScheme="facebook" onClick={() => navigate("/member/list")}>
-        회원목록
-      </Button>
-      <Button colorScheme="facebook" onClick={() => navigate("/login")}>
-        로그인
-      </Button>
-      <Button colorScheme="facebook" onClick={handleLogout}>
-        로그아웃
-      </Button>
+      {isAuthenticated() && (
+        <Button colorScheme="facebook" onClick={() => navigate("/write")}>
+          write
+        </Button>
+      )}
+      {isAuthenticated() || (
+        <Button colorScheme="facebook" onClick={() => navigate("/signup")}>
+          signup
+        </Button>
+      )}
+      {isAuthenticated() && (
+        <Button colorScheme="facebook" onClick={() => navigate("/member/list")}>
+          회원목록
+        </Button>
+      )}
+      {isAuthenticated || (
+        <Button colorScheme="facebook" onClick={() => navigate("/login")}>
+          로그인
+        </Button>
+      )}
+      {isAuthenticated && (
+        <Button colorScheme="facebook" onClick={handleLogout}>
+          로그아웃
+        </Button>
+      )}
     </Flex>
   );
 }
