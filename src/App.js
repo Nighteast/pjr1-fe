@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -15,6 +15,7 @@ import { MemberList } from "./page/member/MemberList";
 import { MemberView } from "./page/member/MemberView";
 import { MemberEdit } from "./page/member/MemberEdit";
 import { MemberLogin } from "./page/member/MemberLogin";
+import axios from "axios";
 
 // router 생성
 const routes = createBrowserRouter(
@@ -36,9 +37,33 @@ const routes = createBrowserRouter(
   ),
 );
 
+export const LoginContext = createContext(null);
+
 function App(props) {
-  // 라우터 제공하기
-  return <RouterProvider router={routes} />;
+  const [login, setLogin] = useState("");
+
+  function fetchLogin() {
+    axios.get("/api/member/login").then((response) => setLogin(response.data));
+  }
+
+  // 로그인 했는지 첫 렌더링 때 확인
+  useEffect(() => {
+    fetchLogin();
+  }, []);
+
+  function isAuthenticated() {
+    return login !== "";
+  }
+
+  console.log(login);
+
+  return (
+    /* 로그인 컨텍스트 제공 */
+    <LoginContext.Provider value={{ login, fetchLogin, isAuthenticated }}>
+      {/* 라우터 제공하기 */}
+      <RouterProvider router={routes} />;
+    </LoginContext.Provider>
+  );
 }
 
 export default App;
