@@ -23,7 +23,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import { LoginContext } from "../../App";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);

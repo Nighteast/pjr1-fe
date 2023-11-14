@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -15,7 +15,7 @@ import { MemberList } from "./page/member/MemberList";
 import { MemberView } from "./page/member/MemberView";
 import { MemberEdit } from "./page/member/MemberEdit";
 import { MemberLogin } from "./page/member/MemberLogin";
-import axios from "axios";
+import LoginProvider from "./component/LoginProvider";
 
 // router 생성
 const routes = createBrowserRouter(
@@ -37,53 +37,12 @@ const routes = createBrowserRouter(
   ),
 );
 
-export const LoginContext = createContext(null);
-
 function App(props) {
-  const [login, setLogin] = useState("");
-
-  function fetchLogin() {
-    axios.get("/api/member/login").then((response) => setLogin(response.data));
-  }
-
-  // 로그인 했는지 첫 렌더링 때 확인
-  useEffect(() => {
-    fetchLogin();
-  }, []);
-
-  // 로그인 여부 확인
-  function isAuthenticated() {
-    return login !== "";
-  }
-
-  // 권한 확인
-  function isAdmin() {
-    if (login.auth) {
-      return login.auth.some((elem) => elem.name === "admin");
-    } else {
-      return false;
-    }
-  }
-
-  // function hasAuth(auth) {
-  //   return login.auth.some((elem) => elem.name === auth);
-  // }
-
-  // 자기가 쓴 글이면 보이기, 아니면 안 보이기
-  function hasAccess(userId) {
-    return login.id === userId;
-  }
-
-  console.log(login);
-
   return (
-    /* 로그인 컨텍스트 제공 */
-    <LoginContext.Provider
-      value={{ login, fetchLogin, isAuthenticated, hasAccess, isAdmin }}
-    >
+    <LoginProvider>
       {/* 라우터 제공하기 */}
       <RouterProvider router={routes} />;
-    </LoginContext.Provider>
+    </LoginProvider>
   );
 }
 
