@@ -44,7 +44,6 @@ export function BoardList() {
               <Th>id</Th>
               <Th>title</Th>
               <Th>by</Th>
-              <Th>nickName</Th>
               <Th>at</Th>
             </Tr>
           </Thead>
@@ -62,7 +61,6 @@ export function BoardList() {
                 <Td>{board.id}</Td>
                 <Td>{board.title}</Td>
                 <Td>{board.writer}</Td>
-                <Td>{board.nickName}</Td>
                 <Td>{formatLocalDateTime(board.inserted)}</Td>
               </Tr>
             ))}
