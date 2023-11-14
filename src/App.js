@@ -51,15 +51,23 @@ function App(props) {
     fetchLogin();
   }, []);
 
+  // 로그인 여부 확인
   function isAuthenticated() {
     return login !== "";
+  }
+
+  // 자기가 쓴 글이면 보이기, 아니면 안 보이기
+  function hasAccess(userId) {
+    return login.id === userId;
   }
 
   console.log(login);
 
   return (
     /* 로그인 컨텍스트 제공 */
-    <LoginContext.Provider value={{ login, fetchLogin, isAuthenticated }}>
+    <LoginContext.Provider
+      value={{ login, fetchLogin, isAuthenticated, hasAccess }}
+    >
       {/* 라우터 제공하기 */}
       <RouterProvider router={routes} />;
     </LoginContext.Provider>

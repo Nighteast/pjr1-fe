@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -23,6 +23,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
+import { LoginContext } from "../../App";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
@@ -37,6 +38,8 @@ export function BoardView() {
 
   // URL의 동적 경로 매개변수(dynamic path parameter)를 추출하는 코드
   const { id } = useParams();
+
+  const { hasAccess } = useContext(LoginContext);
 
   // 초기 랜더링 시 id에 해당하는 게시물 데이터 가져와서 한 페이지 보기
   useEffect(() => {
@@ -106,12 +109,19 @@ export function BoardView() {
         </FormControl>
 
         <Flex gap={"10px"}>
-          <Button colorScheme="purple" onClick={() => navigate("/edit/" + id)}>
-            수정
-          </Button>
-          <Button colorScheme="red" onClick={onOpen}>
-            삭제
-          </Button>
+          {hasAccess(board.writer) && (
+            <Flex gap={"10px"}>
+              <Button
+                colorScheme="purple"
+                onClick={() => navigate("/edit/" + id)}
+              >
+                수정
+              </Button>
+              <Button colorScheme="red" onClick={onOpen}>
+                삭제
+              </Button>
+            </Flex>
+          )}
           {/* 삭제 모달 */}
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
