@@ -85,6 +85,7 @@ export function BoardEdit() {
           }}
         />
       </FormControl>
+
       <FormControl>
         <FormLabel>본문</FormLabel>
         <Textarea
@@ -96,20 +97,11 @@ export function BoardEdit() {
           }}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel>작성자</FormLabel>
-        <Input
-          value={board.writer}
-          onChange={(e) => {
-            updateBoard((draft) => {
-              draft.writer = e.target.value;
-            });
-          }}
-        />
-      </FormControl>
+
       <Button colorScheme="blue" onClick={onOpen}>
         수정
       </Button>
+
       {/* 모달 버튼 작성 */}
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
         <ModalOverlay>
@@ -125,6 +117,7 @@ export function BoardEdit() {
           </ModalContent>
         </ModalOverlay>
       </Modal>
+
       {/* navigate(-1) 이전경로, -2는 2페이지 전 경로, +1은 다음 경로 */}
       <Button onClick={() => navigate(-1)}>취소</Button>
     </Box>
