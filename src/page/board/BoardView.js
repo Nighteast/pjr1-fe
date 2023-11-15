@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { LoginContext } from "../../component/LoginProvider";
+import { CommentContainer } from "../../component/CommentContainer";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
@@ -139,6 +140,7 @@ export function BoardView() {
           </Modal>
         </Flex>
       </VStack>
+      <CommentContainer boardId={id} />
     </Box>
   );
 }
