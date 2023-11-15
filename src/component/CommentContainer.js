@@ -33,6 +33,7 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
 
   return (
     <Box>
+      <Heading size="md">댓글 작성</Heading>
       <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
       <Button isDisabled={isSubmitting} onClick={handleSubmit}>
         쓰기
