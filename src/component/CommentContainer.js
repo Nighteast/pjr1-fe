@@ -32,7 +32,10 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentList({ commentList }) {
+function CommentList({ commentList, onDelete }) {
+  function handleDelete(commentId) {
+    onDelete(commentId);
+  }
   return (
     <Card>
       <CardHeader>
@@ -51,7 +54,9 @@ function CommentList({ commentList }) {
                 <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
                   {comment.comment}
                 </Text>
-                <Button size={"xs"}>삭제</Button>
+                <Button size={"xs"} onClick={() => handleDelete(comment.id)}>
+                  삭제
+                </Button>
               </Flex>
             </Box>
           ))}
@@ -85,6 +90,14 @@ export function CommentContainer({ boardId }) {
       .finally(() => setIsSubmitting(false));
   }
 
+  function handleDelete(commentId) {
+    setIsSubmitting(true);
+
+    axios
+      .delete("/api/comment/delete?=" + commentId)
+      .finally(() => setIsSubmitting(false));
+  }
+
   return (
     <Box>
       <CommentForm
@@ -92,7 +105,11 @@ export function CommentContainer({ boardId }) {
         isSubmitting={isSubmitting}
         onSubmit={handleSubmit}
       />
-      <CommentList boardId={boardId} commentList={commentList} />
+      <CommentList
+        boardId={boardId}
+        commentList={commentList}
+        onDelete={handleDelete}
+      />
     </Box>
   );
 }
