@@ -24,7 +24,6 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
 
   return (
     <Box>
-      <Heading>댓글</Heading>
       <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
       <Button isDisabled={isSubmitting} onClick={handleSubmit}>
         쓰기
@@ -33,34 +32,21 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentList({ boardId }) {
-  const [commentList, setCommentList] = useState([]);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    params.set("id", boardId);
-
-    axios
-      .get("/api/comment/list?" + params.toString())
-      .then((response) => setCommentList(response.data));
-  }, []);
-
+function CommentList({ commentList }) {
   return (
     <Card>
       <CardHeader>
         <Heading size="md">댓글 리스트</Heading>
       </CardHeader>
       <CardBody>
-        <Stack divider={<StackDivider />} spacing={"4"}>
-          {/* TODO: 댓글 작성 후 re render */}
+        <Stack divider={<StackDivider />} spacing="4">
           {commentList.map((comment) => (
             <Box>
-              <Flex justifyContent={"space-between"}>
-                <Heading size={"xs"}>{comment.memberId}</Heading>
-                <Text fontSize={"xs"}>{comment.inserted}</Text>
+              <Flex justifyContent="space-between">
+                <Heading size="xs">{comment.memberId}</Heading>
+                <Text fontSize="xs">{comment.inserted}</Text>
               </Flex>
-              {/* 새로운 줄 출력 : sx={{whiteSpace: "pre-wrap"}} */}
-              <Text sx={{ whiteSpace: "pre-wrap" }} pt={"2"} fontSize={"sm"}>
+              <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
                 {comment.comment}
               </Text>
             </Box>
@@ -74,10 +60,25 @@ function CommentList({ boardId }) {
 export function CommentContainer({ boardId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [commentList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      const params = new URLSearchParams();
+      params.set("id", boardId);
+
+      axios
+        .get("/api/comment/list?" + params)
+        .then((response) => setCommentList(response.data));
+    }
+  }, [isSubmitting]);
+
   function handleSubmit(comment) {
     setIsSubmitting(true);
 
-    axios.post("/api/comment/add", comment).finally(setIsSubmitting(false));
+    axios
+      .post("/api/comment/add", comment)
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -87,7 +88,7 @@ export function CommentContainer({ boardId }) {
         isSubmitting={isSubmitting}
         onSubmit={handleSubmit}
       />
-      <CommentList boardId={boardId} />
+      <CommentList boardId={boardId} commentList={commentList} />
     </Box>
   );
 }
