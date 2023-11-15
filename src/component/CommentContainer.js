@@ -18,6 +18,7 @@ import {
   Text,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -88,6 +89,8 @@ export function CommentContainer({ boardId }) {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const toast = useToast();
+
   // const [id, setId] = useState(0);
   // useRef : 컴포넌트에서 임시로 값을 저장하는 용도로 사용
   const commentIdRef = useRef(0);
@@ -110,6 +113,18 @@ export function CommentContainer({ boardId }) {
 
     axios
       .post("/api/comment/add", comment)
+      .then(() => {
+        toast({
+          description: "댓글이 등록되었습니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        toast({
+          description: "댓글 등록 중 문제가 발생하였습니다.",
+          status: "error",
+        });
+      })
       .finally(() => setIsSubmitting(false));
   }
 
@@ -118,10 +133,31 @@ export function CommentContainer({ boardId }) {
     // TODO: 모달, then, catch, finally
 
     setIsSubmitting(true);
-    axios.delete("/api/comment/" + commentIdRef.current).finally(() => {
-      onClose();
-      setIsSubmitting(false);
-    });
+    axios
+      .delete("/api/comment/" + commentIdRef.current)
+      .then(() => {
+        toast({
+          description: "댓글이 삭제되었습니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+          toast({
+            description: "권한이 없습니다.",
+            status: "warning",
+          });
+        } else {
+          toast({
+            description: "댓글 삭제 중 문제가 발생하였습니다.",
+            status: "error",
+          });
+        }
+      })
+      .finally(() => {
+        onClose();
+        setIsSubmitting(false);
+      });
   }
 
   function handleDeleteModalOpen(id) {
