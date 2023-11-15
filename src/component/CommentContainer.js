@@ -46,9 +46,13 @@ function CommentList({ commentList }) {
                 <Heading size="xs">{comment.memberId}</Heading>
                 <Text fontSize="xs">{comment.inserted}</Text>
               </Flex>
-              <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
-                {comment.comment}
-              </Text>
+
+              <Flex justifyContent="space-between">
+                <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
+                  {comment.comment}
+                </Text>
+                <Button size={"xs"}>삭제</Button>
+              </Flex>
             </Box>
           ))}
         </Stack>
