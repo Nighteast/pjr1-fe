@@ -94,7 +94,7 @@ export function CommentContainer({ boardId }) {
     setIsSubmitting(true);
 
     axios
-      .delete("/api/comment/delete?=" + commentId)
+      .delete("/api/comment/delete?id=" + commentId)
       .finally(() => setIsSubmitting(false));
   }
 
