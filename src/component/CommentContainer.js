@@ -53,7 +53,6 @@ function CommentList({ boardId }) {
       </CardHeader>
       <CardBody>
         <Stack divider={<StackDivider />} spacing={"4"}>
-          {/* 새로운 줄 출력 : sx={{whiteSpace: "pre-wrap"}} */}
           {/* TODO: 댓글 작성 후 re render */}
           {commentList.map((comment) => (
             <Box>
@@ -61,6 +60,7 @@ function CommentList({ boardId }) {
                 <Heading size={"xs"}>{comment.memberId}</Heading>
                 <Text fontSize={"xs"}>{comment.inserted}</Text>
               </Flex>
+              {/* 새로운 줄 출력 : sx={{whiteSpace: "pre-wrap"}} */}
               <Text sx={{ whiteSpace: "pre-wrap" }} pt={"2"} fontSize={"sm"}>
                 {comment.comment}
               </Text>
