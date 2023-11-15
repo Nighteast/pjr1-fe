@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { LoginContext } from "./LoginProvider";
 
 function CommentForm({ boardId, isSubmitting, onSubmit }) {
@@ -43,7 +43,13 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentList({ commentList, onDeleteModalOpen, isSubmitting }) {
+// 댓글 목록
+function CommentList({
+  commentList,
+  onEditModalOpen,
+  onDeleteModalOpen,
+  isSubmitting,
+}) {
   const { hasAccess } = useContext(LoginContext);
 
   return (
@@ -65,14 +71,24 @@ function CommentList({ commentList, onDeleteModalOpen, isSubmitting }) {
                   {comment.comment}
                 </Text>
                 {hasAccess(comment.memberId) && (
-                  <Button
-                    isDisabled={isSubmitting}
-                    onClick={() => onDeleteModalOpen(comment.id)}
-                    size="xs"
-                    colorScheme="red"
-                  >
-                    <DeleteIcon />
-                  </Button>
+                  <Box>
+                    <Button
+                      isDisabled={isSubmitting}
+                      onClick={() => onEditModalOpen(comment.id)}
+                      size="xs"
+                      colorScheme="blue"
+                    >
+                      <EditIcon />
+                    </Button>
+                    <Button
+                      isDisabled={isSubmitting}
+                      onClick={() => onDeleteModalOpen(comment.id)}
+                      size="xs"
+                      colorScheme="red"
+                    >
+                      <DeleteIcon />
+                    </Button>
+                  </Box>
                 )}
               </Flex>
             </Box>
@@ -83,11 +99,22 @@ function CommentList({ commentList, onDeleteModalOpen, isSubmitting }) {
   );
 }
 
+// 댓글 컨테이너
 export function CommentContainer({ boardId }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [commentList, setCommentList] = useState([]);
 
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onClose: onDeleteModalClose,
+    onOpen: onDeleteModalOpen,
+  } = useDisclosure();
+
+  const {
+    isOpen: isEditModalOpen,
+    onClose: onEditModalClose,
+    onOpen: onEditModalOpen,
+  } = useDisclosure();
 
   const toast = useToast();
 
@@ -108,6 +135,7 @@ export function CommentContainer({ boardId }) {
     }
   }, [isSubmitting]);
 
+  // 댓글 쓰기 기능
   function handleSubmit(comment) {
     setIsSubmitting(true);
 
@@ -128,6 +156,37 @@ export function CommentContainer({ boardId }) {
       .finally(() => setIsSubmitting(false));
   }
 
+  // 댓글 수정 기능
+  function handleEdit() {
+    setIsSubmitting(true);
+    axios
+      .put("/api/comment/" + commentIdRef.current)
+      .then(() => {
+        toast({
+          description: "댓글이 수정되었습니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+          toast({
+            description: "권한이 없습니다.",
+            status: "warning",
+          });
+        } else {
+          toast({
+            description: "댓글 수정 중 문제가 발생하였습니다.",
+            status: "error",
+          });
+        }
+      })
+      .finally(() => {
+        onEditModalClose();
+        setIsSubmitting(false);
+      });
+  }
+
+  // 댓글 삭제 기능
   function handleDelete() {
     // console.log(id + "번 댓글 삭제");
     // TODO: 모달, then, catch, finally
@@ -155,17 +214,26 @@ export function CommentContainer({ boardId }) {
         }
       })
       .finally(() => {
-        onClose();
+        onDeleteModalClose();
         setIsSubmitting(false);
       });
   }
 
+  // 댓글 삭제 모달 오픈
   function handleDeleteModalOpen(id) {
     // id 를 어딘가 저장
     // setId(id);
     commentIdRef.current = id;
     // 모달 열기
-    onOpen();
+    onDeleteModalOpen();
+  }
+  // 댓글 수정 모달 오픈
+  function handleEditModalOpen(id) {
+    // id 를 어딘가 저장
+    // setId(id);
+    commentIdRef.current = id;
+    // 모달 열기
+    onEditModalOpen();
   }
 
   return (
@@ -177,15 +245,37 @@ export function CommentContainer({ boardId }) {
           onSubmit={handleSubmit}
         />
       )}
+
       <CommentList
         boardId={boardId}
         isSubmitting={isSubmitting}
         commentList={commentList}
         onDeleteModalOpen={handleDeleteModalOpen}
+        onEditModalOpen={handleEditModalOpen}
       />
+      {/* 수정 모달 */}
+      <Modal isOpen={isEditModalOpen} onClose={onEditModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>수정 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>수정 하시겠습니까?</ModalBody>
+
+          <ModalFooter>
+            <Button onClick={onEditModalClose}>닫기</Button>
+            <Button
+              isDisabled={isSubmitting}
+              onClick={handleEdit}
+              colorScheme="blue"
+            >
+              수정
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* 삭제 모달 */}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>삭제 확인</ModalHeader>
@@ -193,7 +283,7 @@ export function CommentContainer({ boardId }) {
           <ModalBody>삭제 하시겠습니까?</ModalBody>
 
           <ModalFooter>
-            <Button onClick={onClose}>닫기</Button>
+            <Button onClick={onDeleteModalClose}>닫기</Button>
             <Button
               isDisabled={isSubmitting}
               onClick={handleDelete}
