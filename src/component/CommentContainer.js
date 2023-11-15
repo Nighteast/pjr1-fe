@@ -175,7 +175,7 @@ export function CommentContainer({ boardId }) {
           });
         } else {
           toast({
-            description: "댓글 수정 중 문제가 발생하였습니다.",
+            description: "댓글 수정 중 문제가 발생하였습니다",
             status: "error",
           });
         }
