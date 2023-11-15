@@ -227,6 +227,7 @@ export function CommentContainer({ boardId }) {
     // 모달 열기
     onDeleteModalOpen();
   }
+
   // 댓글 수정 모달 오픈
   function handleEditModalOpen(id) {
     // id 를 어딘가 저장
@@ -259,7 +260,11 @@ export function CommentContainer({ boardId }) {
         <ModalContent>
           <ModalHeader>수정 확인</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>수정 하시겠습니까?</ModalBody>
+          <ModalBody>
+            <Heading size={"sm"}>수정 내용 작성</Heading>
+            <Textarea />
+            <Text>수정 하시겠습니까?</Text>
+          </ModalBody>
 
           <ModalFooter>
             <Button onClick={onEditModalClose}>닫기</Button>
