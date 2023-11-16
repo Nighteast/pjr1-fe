@@ -43,18 +43,50 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
   );
 }
 
-function CommentItem({ comment, onDeleteModalOpen }) {
+function CommentItem({
+  comment,
+  onDeleteModalOpen,
+  setIsSubmitting,
+  isSubmitting,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [commentEdited, setCommentEdited] = useState(comment.comment);
 
+  const toast = useToast();
   const { hasAccess } = useContext(LoginContext);
 
   function handleSubmit() {
+    // TODO : 응답 코드에 따른 기능들
+
+    setIsSubmitting(true);
+
     axios
       .put("/api/comment/edit", { id: comment.id, comment: commentEdited })
-      .then(() => console.log("good"))
-      .catch(() => console.log("error"))
-      .finally(() => console.log("done"));
+      .then(() => {
+        toast({
+          description: "댓글이 수정되었습니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.stat == 401 || error.response.status == 403) {
+          toast({
+            description: "권한이 없습니다.",
+            status: "warning",
+          });
+        }
+
+        if (error.response.status == 400) {
+          toast({
+            description: "입력값을 확인해 주세요.",
+            status: "warning",
+          });
+        }
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setIsEditing(false);
+      });
   }
 
   return (
@@ -75,7 +107,11 @@ function CommentItem({ comment, onDeleteModalOpen }) {
                 value={commentEdited}
                 onChange={(e) => setCommentEdited(e.target.value)}
               />
-              <Button colorScheme="blue" onClick={handleSubmit}>
+              <Button
+                isDisabled={isSubmitting}
+                colorScheme="blue"
+                onClick={handleSubmit}
+              >
                 저장
               </Button>
             </Box>
@@ -116,7 +152,12 @@ function CommentItem({ comment, onDeleteModalOpen }) {
   );
 }
 
-function CommentList({ commentList, onDeleteModalOpen, isSubmitting }) {
+function CommentList({
+  commentList,
+  onDeleteModalOpen,
+  isSubmitting,
+  setIsSubmitting,
+}) {
   return (
     <Card>
       <CardHeader>
@@ -129,6 +170,8 @@ function CommentList({ commentList, onDeleteModalOpen, isSubmitting }) {
               key={comment.id}
               comment={comment}
               onDeleteModalOpen={onDeleteModalOpen}
+              setIsSubmitting={setIsSubmitting}
+              isSubmitting={isSubmitting}
             />
           ))}
         </Stack>
@@ -234,6 +277,7 @@ export function CommentContainer({ boardId }) {
       <CommentList
         boardId={boardId}
         isSubmitting={isSubmitting}
+        setIsSubmitting={setIsSubmitting}
         commentList={commentList}
         onDeleteModalOpen={handleDeleteModalOpen}
       />
