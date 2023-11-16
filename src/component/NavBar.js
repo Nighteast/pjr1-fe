@@ -3,6 +3,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { LoginContext } from "./LoginProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCircleXmark,
+  faHouse,
+  faPen,
+  faRightToBracket,
+  faUser,
+  faUserPlus,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 
 export function NavBar() {
   const { fetchLogin, login, isAuthenticated, isAdmin } =
@@ -38,20 +49,24 @@ export function NavBar() {
   return (
     <Flex gap={"10px"} m={"10px"}>
       <Button colorScheme="facebook" onClick={() => navigate("/")}>
+        <FontAwesomeIcon icon={faHouse} />
         home
       </Button>
       {isAuthenticated() && (
         <Button colorScheme="facebook" onClick={() => navigate("/write")}>
+          <FontAwesomeIcon icon={faPen} />
           write
         </Button>
       )}
       {isAuthenticated() || (
         <Button colorScheme="facebook" onClick={() => navigate("/signup")}>
+          <FontAwesomeIcon icon={faUserPlus} />
           signup
         </Button>
       )}
       {isAdmin() && (
         <Button colorScheme="facebook" onClick={() => navigate("/member/list")}>
+          <FontAwesomeIcon icon={faUsers} />
           회원목록
         </Button>
       )}
@@ -60,16 +75,19 @@ export function NavBar() {
           colorScheme="facebook"
           onClick={() => navigate("/member?" + urlParams.toString())}
         >
+          <FontAwesomeIcon icon={faUser} />
           회원정보
         </Button>
       )}
       {isAuthenticated() || (
         <Button colorScheme="facebook" onClick={() => navigate("/login")}>
+          <FontAwesomeIcon icon={faRightToBracket} />
           로그인
         </Button>
       )}
       {isAuthenticated() && (
         <Button colorScheme="facebook" onClick={handleLogout}>
+          <FontAwesomeIcon icon={faCircleXmark} />
           로그아웃
         </Button>
       )}
