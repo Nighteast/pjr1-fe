@@ -92,7 +92,7 @@ function CommentItem({
   return (
     <Box>
       <Flex justifyContent="space-between">
-        <Heading size="xs">{comment.memberId}</Heading>
+        <Heading size="xs">{comment.nickName}</Heading>
         <Text fontSize="xs">{comment.inserted}</Text>
       </Flex>
 
@@ -205,6 +205,7 @@ export function CommentContainer({ boardId }) {
     }
   }, [isSubmitting]);
 
+  // 댓글 작성
   function handleSubmit(comment) {
     setIsSubmitting(true);
 
