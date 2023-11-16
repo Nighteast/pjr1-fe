@@ -25,6 +25,8 @@ import {
 import { format } from "date-fns";
 import { LoginContext } from "../../component/LoginProvider";
 import { CommentContainer } from "../../component/CommentContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
@@ -81,65 +83,77 @@ export function BoardView() {
     "yyyy년 MM월 dd일 HH:mm:ss",
   );
 
+  // 좋아요 버튼 클릭 함수
+  function handleLike() {
+    axios
+      .post("/api/like", { boardId: board.id })
+      .then(() => console.log("good"))
+      .catch(() => console.log("bad"))
+      .finally(() => console.log("done"));
+  }
+
   return (
     <Box p={6}>
       {/* 세로로 요소 정렬하고 간격 조절, align은 요소를 수직정렬, start는 위에서 아래로 */}
-      <VStack spacing={4} align="start">
-        <Heading as="h1" size="xl">
-          {board.id}번 글 보기
-        </Heading>
 
-        <FormControl>
-          <FormLabel>제목</FormLabel>
-          <Input value={board.title} readOnly />
-        </FormControl>
+      <Flex justifyContent={"space-between"}>
+        <Heading size="xl">{board.id}번 글 보기</Heading>
+        <Button varient={"ghost"} size={"xl"} onClick={handleLike}>
+          <FontAwesomeIcon icon={faHeart} size="xl" />
+        </Button>
+      </Flex>
 
-        <FormControl>
-          <FormLabel>본문</FormLabel>
-          <Textarea value={board.content} readOnly />
-        </FormControl>
+      <FormControl>
+        <FormLabel>제목</FormLabel>
+        <Input value={board.title} readOnly />
+      </FormControl>
 
-        <FormControl>
-          <FormLabel>작성자</FormLabel>
-          <Input value={board.nickName} readOnly />
-        </FormControl>
+      <FormControl>
+        <FormLabel>본문</FormLabel>
+        <Textarea value={board.content} readOnly />
+      </FormControl>
 
-        <FormControl>
-          <FormLabel>작성일시</FormLabel>
-          <Input value={formattedDate} readOnly />
-        </FormControl>
+      <FormControl>
+        <FormLabel>작성자</FormLabel>
+        <Input value={board.nickName} readOnly />
+      </FormControl>
 
-        <Flex gap={"10px"}>
-          {(hasAccess(board.writer) || isAdmin(board.writer)) && (
-            <Flex gap={"10px"}>
-              <Button
-                colorScheme="purple"
-                onClick={() => navigate("/edit/" + id)}
-              >
-                수정
-              </Button>
-              <Button colorScheme="red" onClick={onOpen}>
+      <FormControl>
+        <FormLabel>작성일시</FormLabel>
+        <Input value={formattedDate} readOnly />
+      </FormControl>
+
+      <Flex gap={"10px"}>
+        {(hasAccess(board.writer) || isAdmin(board.writer)) && (
+          <Flex gap={"10px"}>
+            <Button
+              colorScheme="purple"
+              onClick={() => navigate("/edit/" + id)}
+            >
+              수정
+            </Button>
+            <Button colorScheme="red" onClick={onOpen}>
+              삭제
+            </Button>
+          </Flex>
+        )}
+        {/* 삭제 모달 */}
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>삭제 확인</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>삭제 하시겠습니까?</ModalBody>
+            <ModalFooter>
+              <Button onClick={onClose}>닫기</Button>
+              <Button onClick={handleDelete} colorScheme="red">
                 삭제
               </Button>
-            </Flex>
-          )}
-          {/* 삭제 모달 */}
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>삭제 확인</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>삭제 하시겠습니까?</ModalBody>
-              <ModalFooter>
-                <Button onClick={onClose}>닫기</Button>
-                <Button onClick={handleDelete} colorScheme="red">
-                  삭제
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </Flex>
-      </VStack>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Flex>
+
       <CommentContainer boardId={id} />
     </Box>
   );
