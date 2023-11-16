@@ -92,7 +92,7 @@ function CommentItem({
   return (
     <Box>
       <Flex justifyContent="space-between">
-        <Heading size="xs">{comment.nickName}</Heading>
+        <Heading size="xs">{comment.memberNickName}</Heading>
         <Text fontSize="xs">{comment.inserted}</Text>
       </Flex>
 
