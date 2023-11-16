@@ -56,8 +56,6 @@ function CommentItem({
   const { hasAccess } = useContext(LoginContext);
 
   function handleSubmit() {
-    // TODO : 응답 코드에 따른 기능들
-
     setIsSubmitting(true);
 
     axios
@@ -228,7 +226,6 @@ export function CommentContainer({ boardId }) {
 
   function handleDelete() {
     // console.log(id + "번 댓글 삭제");
-    // TODO: 모달, then, catch, finally
 
     setIsSubmitting(true);
     axios

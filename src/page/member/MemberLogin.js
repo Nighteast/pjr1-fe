@@ -23,8 +23,6 @@ export function MemberLogin() {
   const { fetchLogin } = useContext(LoginContext);
 
   function handleLogin() {
-    // TODO : 로그인 후 성공, 실패, 완료 코드 추가
-
     axios
       .post("/api/member/login", { id, password })
       .then(() => {
