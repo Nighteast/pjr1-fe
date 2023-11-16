@@ -1,31 +1,38 @@
 import { Button, Flex, useToast } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { LoginContext } from "./LoginProvider";
 
 export function NavBar() {
   const { fetchLogin, login, isAuthenticated, isAdmin } =
     useContext(LoginContext);
   const toast = useToast();
+
   const navigate = useNavigate();
 
   const urlParams = new URLSearchParams();
+
+  // 현재 애플리케이션의 경로(location) 정보를 가져옴.
+  // 경로에 따라 사이드 이펙트 수행시 좋음.
+  const location = useLocation();
+
+  useEffect(() => {
+    fetchLogin();
+  }, [location]);
+
   if (login !== "") {
     urlParams.set("id", login.id);
   }
 
   function handleLogout() {
-    axios
-      .post("/api/member/logout")
-      .then(() => {
-        toast({
-          description: "로그아웃 되었습니다",
-          status: "info",
-        });
-        navigate("/");
-      })
-      .finally(() => fetchLogin());
+    axios.post("/api/member/logout").then(() => {
+      toast({
+        description: "로그아웃 되었습니다",
+        status: "info",
+      });
+      navigate("/");
+    });
   }
 
   return (

@@ -16,8 +16,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { LoginContext } from "../../component/LoginProvider";
 
 export function MemberView() {
   const [member, setMember] = useState(null);

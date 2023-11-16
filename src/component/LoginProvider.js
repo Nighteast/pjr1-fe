@@ -6,6 +6,7 @@ export const LoginContext = createContext(null);
 function LoginProvider({ children }) {
   const [login, setLogin] = useState("");
 
+  // 서버에서 로그인 세션 정보를 받아옴.
   function fetchLogin() {
     axios.get("/api/member/login").then((response) => setLogin(response.data));
   }
