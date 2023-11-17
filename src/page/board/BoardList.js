@@ -7,18 +7,21 @@ import {
   Table,
   Tbody,
   Td,
-  Tfoot,
   Th,
   Thead,
   Tr,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { format } from "date-fns";
 import { ChatIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretLeft,
+  faCaretRight,
+  faHeart,
+} from "@fortawesome/free-solid-svg-icons";
 
+// 페이지네이션
 function Pagination({ pageInfo }) {
   const pageNumbers = [];
 
@@ -30,14 +33,27 @@ function Pagination({ pageInfo }) {
 
   return (
     <Box>
+      {pageInfo.prevPageNumber && (
+        <Button onClick={() => navigate("/?p=" + pageInfo.prevPageNumber)}>
+          <FontAwesomeIcon icon={faCaretLeft} />
+        </Button>
+      )}
+
       {pageNumbers.map((pageNumber) => (
         <Button key={pageNumber} onClick={() => navigate("/?p=" + pageNumber)}>
           {pageNumber}
         </Button>
       ))}
+
+      {pageInfo.nextPageNumber && (
+        <Button onClick={() => navigate("/?p=" + pageInfo.nextPageNumber)}>
+          <FontAwesomeIcon icon={faCaretRight} />
+        </Button>
+      )}
     </Box>
   );
 }
+
 export function BoardList() {
   const [boardList, setBoardList] = useState(null);
   const [pageInfo, setPageInfo] = useState(null);
@@ -108,6 +124,7 @@ export function BoardList() {
           </Tbody>
         </Table>
       </Box>
+      {/* 페이지네이션 */}
       <Pagination pageInfo={pageInfo} />
     </Box>
   );
