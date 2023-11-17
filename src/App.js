@@ -41,7 +41,7 @@ function App(props) {
   return (
     <LoginProvider>
       {/* 라우터 제공하기 */}
-      <RouterProvider router={routes} />;
+      <RouterProvider router={routes} />
     </LoginProvider>
   );
 }
