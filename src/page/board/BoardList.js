@@ -34,9 +34,9 @@ export function BoardList() {
   }
 
   // localdatetime을 원하는 형식으로 변환하는 함수
-  const formatLocalDateTime = (datetime) => {
-    return format(new Date(datetime), "yyyy-MM-dd HH:mm:ss");
-  };
+  // const formatLocalDateTime = (datetime) => {
+  //   return format(new Date(datetime), "yyyy-MM-dd HH:mm:ss");
+  // };
 
   return (
     <Box>
