@@ -21,15 +21,17 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export function BoardList() {
   const [boardList, setBoardList] = useState(null);
+  const [pageInfo, setPageInfo] = useState(null);
 
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
   // 초기 렌더링 시 게시물 리스트 가져오기
   useEffect(() => {
-    axios
-      .get("/api/board/list?" + params.toString())
-      .then((response) => setBoardList(response.data));
+    axios.get("/api/board/list?" + params.toString()).then((response) => {
+      setBoardList(response.data.boardList);
+      setPageInfo(response.data.pageInfo);
+    });
   }, [params]);
 
   if (boardList === null) {
