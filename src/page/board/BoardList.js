@@ -34,19 +34,31 @@ function Pagination({ pageInfo }) {
   return (
     <Box>
       {pageInfo.prevPageNumber && (
-        <Button onClick={() => navigate("/?p=" + pageInfo.prevPageNumber)}>
+        <Button
+          varient={"ghost"}
+          onClick={() => navigate("/?p=" + pageInfo.prevPageNumber)}
+        >
           <FontAwesomeIcon icon={faCaretLeft} />
         </Button>
       )}
 
       {pageNumbers.map((pageNumber) => (
-        <Button key={pageNumber} onClick={() => navigate("/?p=" + pageNumber)}>
+        <Button
+          key={pageNumber}
+          varient={
+            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          }
+          onClick={() => navigate("/?p=" + pageNumber)}
+        >
           {pageNumber}
         </Button>
       ))}
 
       {pageInfo.nextPageNumber && (
-        <Button onClick={() => navigate("/?p=" + pageInfo.nextPageNumber)}>
+        <Button
+          varient={"ghost"}
+          onClick={() => navigate("/?p=" + pageInfo.nextPageNumber)}
+        >
           <FontAwesomeIcon icon={faCaretRight} />
         </Button>
       )}
