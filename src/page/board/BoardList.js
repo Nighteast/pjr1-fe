@@ -11,7 +11,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { format } from "date-fns";
 import { ChatIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,12 +20,13 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 export function BoardList() {
   const [boardList, setBoardList] = useState(null);
 
+  const [params] = useSearchParams();
   const navigate = useNavigate();
 
   // 초기 렌더링 시 게시물 리스트 가져오기
   useEffect(() => {
     axios
-      .get("/api/board/list")
+      .get("/api/board/list?" + params.toString())
       .then((response) => setBoardList(response.data));
   }, []);
 
