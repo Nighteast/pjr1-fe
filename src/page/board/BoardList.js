@@ -16,6 +16,10 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ChatIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAngleLeft,
+  faAngleRight,
+  faAnglesLeft,
+  faAnglesRight,
   faCaretLeft,
   faCaretRight,
   faHeart,
@@ -33,15 +37,24 @@ function Pagination({ pageInfo }) {
 
   return (
     <Box>
+      {/* 최초 페이지 이동 */}
+      {pageInfo.initialPageNumber && (
+        <Button varient={"ghost"} onClick={() => navigate("/?p=" + 1)}>
+          <FontAwesomeIcon icon={faAnglesLeft} />
+        </Button>
+      )}
+
+      {/* 이전 페이지 집합 이동 */}
       {pageInfo.prevPageNumber && (
         <Button
           variant={"ghost"}
           onClick={() => navigate("/?p=" + pageInfo.prevPageNumber)}
         >
-          <FontAwesomeIcon icon={faCaretLeft} />
+          <FontAwesomeIcon icon={faAngleLeft} />
         </Button>
       )}
 
+      {/* 선택 페이지 이동 */}
       {pageNumbers.map((pageNumber) => (
         <Button
           key={pageNumber}
@@ -54,14 +67,23 @@ function Pagination({ pageInfo }) {
         </Button>
       ))}
 
+      {/* 다음 페이지 집합 이동 */}
       {pageInfo.nextPageNumber && (
         <Button
           varient={"ghost"}
           onClick={() => navigate("/?p=" + pageInfo.nextPageNumber)}
         >
-          <FontAwesomeIcon icon={faCaretRight} />
+          <FontAwesomeIcon icon={faAngleRight} />
         </Button>
       )}
+
+      {/* 마지막 페이지 이동 */}
+      <Button
+        varient={"ghost"}
+        onClick={() => navigate("/?p=" + pageInfo.lastPageNumber)}
+      >
+        <FontAwesomeIcon icon={faAnglesRight} />
+      </Button>
     </Box>
   );
 }
