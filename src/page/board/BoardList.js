@@ -35,7 +35,7 @@ function Pagination({ pageInfo }) {
     <Box>
       {pageInfo.prevPageNumber && (
         <Button
-          varient={"ghost"}
+          variant={"ghost"}
           onClick={() => navigate("/?p=" + pageInfo.prevPageNumber)}
         >
           <FontAwesomeIcon icon={faCaretLeft} />
@@ -45,8 +45,8 @@ function Pagination({ pageInfo }) {
       {pageNumbers.map((pageNumber) => (
         <Button
           key={pageNumber}
-          varient={
-            pageNumber === pageInfo.currentPageNumber ? "solid" : "ghost"
+          colorScheme={
+            pageNumber === pageInfo.currentPageNumber ? "teal" : "gray"
           }
           onClick={() => navigate("/?p=" + pageNumber)}
         >
