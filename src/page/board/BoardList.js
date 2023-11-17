@@ -77,7 +77,7 @@ export function BoardList() {
                   )}
                 </Td>
                 <Td>{board.nickName}</Td>
-                <Td>{formatLocalDateTime(board.inserted)}</Td>
+                <Td>{board.ago}</Td>
               </Tr>
             ))}
           </Tbody>
