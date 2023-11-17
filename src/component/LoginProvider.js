@@ -39,8 +39,6 @@ function LoginProvider({ children }) {
     return login.id === userId;
   }
 
-  console.log(login);
-
   return (
     <LoginContext.Provider
       value={{ login, fetchLogin, isAuthenticated, hasAccess, isAdmin }}
