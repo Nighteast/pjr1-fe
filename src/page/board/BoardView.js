@@ -27,9 +27,23 @@ import { LoginContext } from "../../component/LoginProvider";
 import { CommentContainer } from "../../component/CommentContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import * as PropTypes from "prop-types";
+
+function LikeContainer({ like, onClick }) {
+  if (like === null) {
+    return <Spinner />;
+  }
+
+  return (
+    <Button varient={"ghost"} size={"xl"} onClick={onClick}>
+      <FontAwesomeIcon icon={faHeart} size="xl" />
+    </Button>
+  );
+}
 
 export function BoardView() {
   const [board, setBoard] = useState(null);
+  const [like, setLike] = useState("");
 
   // useDisclosure : Chakra UI의 Hook으로 다이얼로그, 모달, 팝업창 등의 상태와 이벤트 처리 관리
   // isOpen: 모달/다이얼로그 열려 있는지 여부(열릴때 true, 닫힐때 false)
@@ -49,6 +63,12 @@ export function BoardView() {
     axios
       .get("/api/board/id/" + id)
       .then((response) => setBoard(response.data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("/api/like/board/" + id)
+      .then((response) => setLike(response.data));
   }, []);
 
   // board가 null일때 스피너 돌리기
@@ -87,7 +107,7 @@ export function BoardView() {
   function handleLike() {
     axios
       .post("/api/like", { boardId: board.id })
-      .then(() => console.log("good"))
+      .then((response) => setLike(response.data))
       .catch(() => console.log("bad"))
       .finally(() => console.log("done"));
   }
@@ -98,9 +118,7 @@ export function BoardView() {
 
       <Flex justifyContent={"space-between"}>
         <Heading size="xl">{board.id}번 글 보기</Heading>
-        <Button varient={"ghost"} size={"xl"} onClick={handleLike}>
-          <FontAwesomeIcon icon={faHeart} size="xl" />
-        </Button>
+        <LikeContainer like={like} onClick={handleLike} />
       </Flex>
 
       <FormControl>
