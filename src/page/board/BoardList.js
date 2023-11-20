@@ -24,7 +24,6 @@ import {
   faAnglesRight,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import * as PropTypes from "prop-types";
 
 // 페이지 이동 버튼
 function PageButton({ variant, pageNumber, children }) {
@@ -64,12 +63,9 @@ function Pagination({ pageInfo }) {
 
       {/* 이전 페이지 집합 이동 */}
       {pageInfo.prevPageNumber && (
-        <Button
-          variant={"ghost"}
-          onClick={() => navigate("/?p=" + pageInfo.prevPageNumber)}
-        >
+        <PageButton variant={"ghost"} pageNumber={pageInfo.prevPageNumber}>
           <FontAwesomeIcon icon={faAngleLeft} />
-        </Button>
+        </PageButton>
       )}
 
       {/* 선택 페이지 이동 */}
@@ -87,12 +83,9 @@ function Pagination({ pageInfo }) {
 
       {/* 다음 페이지 집합 이동 */}
       {pageInfo.nextPageNumber && (
-        <Button
-          varient={"ghost"}
-          onClick={() => navigate("/?p=" + pageInfo.nextPageNumber)}
-        >
+        <PageButton varient={"ghost"} pageNumber={pageInfo.nextPageNumber}>
           <FontAwesomeIcon icon={faAngleRight} />
-        </Button>
+        </PageButton>
       )}
 
       {/* 마지막 페이지 이동 */}
