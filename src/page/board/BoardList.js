@@ -24,6 +24,24 @@ import {
   faAnglesRight,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
+import * as PropTypes from "prop-types";
+
+// 페이지 이동 버튼
+function PageButton({ variant, pageNumber, children }) {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+
+  function handleClick() {
+    params.set("p", pageNumber);
+    navigate("/?" + params);
+  }
+
+  return (
+    <Button variant={variant} onClick={handleClick}>
+      {children}
+    </Button>
+  );
+}
 
 // 페이지네이션
 function Pagination({ pageInfo }) {
@@ -56,15 +74,15 @@ function Pagination({ pageInfo }) {
 
       {/* 선택 페이지 이동 */}
       {pageNumbers.map((pageNumber) => (
-        <Button
+        <PageButton
           key={pageNumber}
           colorScheme={
             pageNumber === pageInfo.currentPageNumber ? "teal" : "gray"
           }
-          onClick={() => navigate("/?p=" + pageNumber)}
+          pageNumber={pageNumber}
         >
           {pageNumber}
-        </Button>
+        </PageButton>
       ))}
 
       {/* 다음 페이지 집합 이동 */}
