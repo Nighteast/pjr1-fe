@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Image,
   Input,
@@ -12,18 +14,22 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
+  Text,
   Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function BoardEdit() {
   // useImmer 사용, 상태를 생성
   const [board, updateBoard] = useImmer(null);
+  const [uploadFiles, setUploadFiles] = useState(null);
 
   // /edit/:id 이므로 useParams로 URL에서 게시글 ID가져오기
   const { id } = useParams();
@@ -72,6 +78,8 @@ export function BoardEdit() {
       .finally(() => onClose());
   }
 
+  function deleteImage(id) {}
+
   return (
     <Box>
       <h1>{id}번 글 수정</h1>
@@ -103,8 +111,35 @@ export function BoardEdit() {
       {board.files.map((file) => (
         <Box key={file.id} my={"5px"} border={"3px solid black"}>
           <Image width={"100%"} src={file.url} alt={file.name} />
+          <Text>{file.name}</Text>
         </Box>
       ))}
+
+      <FormControl>
+        <FormLabel>이미지 첨부</FormLabel>
+        <Input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setUploadFiles(e.target.files)}
+        />
+        {/* 이미지 파일명을 텍스트로 표시, 이미지 개별 삭제 기능 */}
+        {board.files.map((file) => (
+          <Flex key={file.id} my={"5px"} border={"3px solid black"}>
+            <Text>{file.name}</Text>
+            <Button
+              size={"xs"}
+              colorScheme="red"
+              onClick={() => deleteImage(file.id)}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </Button>
+          </Flex>
+        ))}
+        <FormHelperText>
+          한 개 파일은 1MB 이내, 총 용량은 10MB 이내로 첨부하세요.
+        </FormHelperText>
+      </FormControl>
 
       <Button colorScheme="blue" onClick={onOpen}>
         수정
