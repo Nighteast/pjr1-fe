@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -17,12 +18,13 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export function BoardEdit() {
   // useImmer 사용, 상태를 생성
   const [board, updateBoard] = useImmer(null);
+  const [uploadFiles, setUploadFiles] = useState(null);
 
   // /edit/:id 이므로 useParams로 URL에서 게시글 ID가져오기
   const { id } = useParams();
@@ -44,6 +46,11 @@ export function BoardEdit() {
 
   function handleSubmit() {
     // 저장 버튼 클릭 시
+
+    // 이미지 삭제 요청
+
+    // 이미지 업로드 요청
+
     // PUT /api/board/edit (업데이트 시 PUT, PATCH 방식이 주로 쓰인다)
     axios
       .put("/api/board/edit", board)
@@ -96,6 +103,20 @@ export function BoardEdit() {
             });
           }}
         />
+      </FormControl>
+
+      {/* 이미지 수정 */}
+      <FormControl>
+        <FormLabel>이미지</FormLabel>
+        <Input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={(e) => setUploadFiles(e.target.files)}
+        />
+        <FormHelperText>
+          한 개 파일은 1MB 이내, 총 용량은 10MB 이내로 첨부하세요.
+        </FormHelperText>
       </FormControl>
 
       <Button colorScheme="blue" onClick={onOpen}>
