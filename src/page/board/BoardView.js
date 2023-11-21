@@ -147,7 +147,6 @@ export function BoardView() {
           <Image width={"100%"} src={file.url} alt={file.name} />
         </Box>
       ))}
-      <FormControl></FormControl>
 
       <FormControl>
         <FormLabel>작성자</FormLabel>

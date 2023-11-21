@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -97,6 +98,13 @@ export function BoardEdit() {
           }}
         />
       </FormControl>
+
+      {/* 이미지 출력 */}
+      {board.files.map((file) => (
+        <Box key={file.id} my={"5px"} border={"3px solid black"}>
+          <Image width={"100%"} src={file.url} alt={file.name} />
+        </Box>
+      ))}
 
       <Button colorScheme="blue" onClick={onOpen}>
         수정
