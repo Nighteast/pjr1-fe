@@ -23,6 +23,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
   faHeart,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 
 // 페이지 이동 버튼
@@ -179,6 +180,12 @@ export function BoardList() {
                     <Badge>
                       <ChatIcon />
                       {board.countComment}
+                    </Badge>
+                  )}
+                  {board.countFile > 0 && (
+                    <Badge>
+                      <FontAwesomeIcon icon={faImage} />
+                      {board.countFile}
                     </Badge>
                   )}
                 </Td>
