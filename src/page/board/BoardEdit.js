@@ -78,7 +78,27 @@ export function BoardEdit() {
       .finally(() => onClose());
   }
 
-  function deleteImage(id) {}
+  function deleteImage(id) {
+    axios
+      .delete("/api/board/remove/image/" + id)
+      .then(() => {
+        // 이미지 삭제 후, 화면에서도 해당 이미지를 제거
+        updateBoard((draft) => {
+          draft.files = draft.files.filter((file) => file.id !== id);
+        });
+        toast({
+          description: "이미지가 삭제되었습니다.",
+          status: "success",
+        });
+      })
+      .catch((error) => {
+        console.error("이미지 삭제 실패:", error);
+        toast({
+          description: "이미지 삭제 중 오류가 발생했습니다.",
+          status: "error",
+        });
+      });
+  }
 
   return (
     <Box>
