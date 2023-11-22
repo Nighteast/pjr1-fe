@@ -49,6 +49,9 @@ export function NavBar() {
   return (
     <Flex gap={"10px"} m={"10px"}>
       <Button
+        borderRadius={"0"}
+        variant={"ghost"}
+        size={"lg"}
         leftIcon={<FontAwesomeIcon icon={faHouse} />}
         colorScheme="facebook"
         onClick={() => navigate("/")}
@@ -57,6 +60,9 @@ export function NavBar() {
       </Button>
       {isAuthenticated() && (
         <Button
+          borderRadius={"0"}
+          variant={"ghost"}
+          size={"lg"}
           leftIcon={<FontAwesomeIcon icon={faPen} />}
           colorScheme="facebook"
           onClick={() => navigate("/write")}
@@ -66,6 +72,9 @@ export function NavBar() {
       )}
       {isAuthenticated() || (
         <Button
+          borderRadius={"0"}
+          variant={"ghost"}
+          size={"lg"}
           leftIcon={<FontAwesomeIcon icon={faUserPlus} />}
           colorScheme="facebook"
           onClick={() => navigate("/signup")}
@@ -75,6 +84,9 @@ export function NavBar() {
       )}
       {isAdmin() && (
         <Button
+          borderRadius={"0"}
+          variant={"ghost"}
+          size={"lg"}
           leftIcon={<FontAwesomeIcon icon={faUsers} />}
           colorScheme="facebook"
           onClick={() => navigate("/member/list")}
@@ -84,6 +96,9 @@ export function NavBar() {
       )}
       {isAuthenticated() && (
         <Button
+          borderRadius={"0"}
+          variant={"ghost"}
+          size={"lg"}
           leftIcon={<FontAwesomeIcon icon={faUser} />}
           colorScheme="facebook"
           onClick={() => navigate("/member?" + urlParams.toString())}
@@ -93,6 +108,9 @@ export function NavBar() {
       )}
       {isAuthenticated() || (
         <Button
+          borderRadius={"0"}
+          variant={"ghost"}
+          size={"lg"}
           leftIcon={<FontAwesomeIcon icon={faRightToBracket} />}
           colorScheme="facebook"
           onClick={() => navigate("/login")}
@@ -102,6 +120,9 @@ export function NavBar() {
       )}
       {isAuthenticated() && (
         <Button
+          borderRadius={"0"}
+          variant={"ghost"}
+          size={"lg"}
           leftIcon={<FontAwesomeIcon icon={faCircleXmark} />}
           colorScheme="facebook"
           onClick={handleLogout}
