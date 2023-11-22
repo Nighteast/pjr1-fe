@@ -4,6 +4,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Center,
   Flex,
   Heading,
   Modal,
@@ -24,6 +25,8 @@ import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { LoginContext } from "./LoginProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 function CommentForm({ boardId, isSubmitting, onSubmit }) {
   const [comment, setComment] = useState("");
@@ -34,11 +37,20 @@ function CommentForm({ boardId, isSubmitting, onSubmit }) {
 
   return (
     <Box>
-      <Heading size="md">댓글 작성</Heading>
-      <Textarea value={comment} onChange={(e) => setComment(e.target.value)} />
-      <Button isDisabled={isSubmitting} onClick={handleSubmit}>
-        쓰기
-      </Button>
+      <Flex>
+        <Textarea
+          placeholder="댓글을 작성해주세요."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <Center isDisabled={isSubmitting} onClick={handleSubmit}>
+          <Button mx={2} size={"lg"} h={"full"}>
+            <Heading>
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </Heading>
+          </Button>
+        </Center>
+      </Flex>
     </Box>
   );
 }
@@ -265,12 +277,21 @@ export function CommentContainer({ boardId }) {
 
   return (
     <Box>
+      <Center mt={5}>
+        <Box w={"lg"}>
+          <Heading>COMMENTS</Heading>
+        </Box>
+      </Center>
       {isAuthenticated() && (
-        <CommentForm
-          boardId={boardId}
-          isSubmitting={isSubmitting}
-          onSubmit={handleSubmit}
-        />
+        <Center mt={10}>
+          <Box w={"lg"}>
+            <CommentForm
+              boardId={boardId}
+              isSubmitting={isSubmitting}
+              onSubmit={handleSubmit}
+            />
+          </Box>
+        </Center>
       )}
       <CommentList
         boardId={boardId}
