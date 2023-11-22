@@ -1,8 +1,15 @@
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Center,
+  Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -81,37 +88,47 @@ export function MemberView() {
   }
 
   return (
-    <Box>
-      <h1>{member.id} 님 정보</h1>
+    <Center>
+      <Card w={"xl"}>
+        <CardHeader>
+          <Heading>{member.id} 님 정보</Heading>
+        </CardHeader>
 
-      {/* password */}
-      <FormControl>
-        <FormLabel>password</FormLabel>
-        <Input type="text" value={member.password} readOnly />
-      </FormControl>
+        <CardBody>
+          {/* password */}
+          <FormControl mb={2}>
+            <FormLabel>password</FormLabel>
+            <Input type="text" value={member.password} readOnly />
+          </FormControl>
 
-      {/* nickName */}
-      <FormControl>
-        <FormLabel>nickName</FormLabel>
-        <Input type="text" value={member.nickName} readOnly />
-      </FormControl>
+          {/* nickName */}
+          <FormControl mb={2}>
+            <FormLabel>nickName</FormLabel>
+            <Input type="text" value={member.nickName} readOnly />
+          </FormControl>
 
-      {/* email */}
-      <FormControl>
-        <FormLabel>email</FormLabel>
-        <Input type="text" value={member.email} readOnly />
-      </FormControl>
+          {/* email */}
+          <FormControl mb={2}>
+            <FormLabel>email</FormLabel>
+            <Input type="text" value={member.email} readOnly />
+          </FormControl>
+        </CardBody>
 
-      <Button
-        onClick={() => navigate("/member/edit?" + params.toString())}
-        colorScheme="purple"
-      >
-        수정
-      </Button>
+        <CardFooter>
+          <Flex gap={2}>
+            <Button
+              onClick={() => navigate("/member/edit?" + params.toString())}
+              colorScheme="purple"
+            >
+              수정
+            </Button>
 
-      <Button onClick={onOpen} colorScheme="red">
-        탈퇴
-      </Button>
+            <Button onClick={onOpen} colorScheme="red">
+              탈퇴
+            </Button>
+          </Flex>
+        </CardFooter>
+      </Card>
 
       {/* 탈퇴 모달 */}
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -128,6 +145,6 @@ export function MemberView() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </Center>
   );
 }

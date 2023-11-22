@@ -167,7 +167,7 @@ export function MemberSignup() {
 
         <CardBody>
           {/* ID */}
-          <FormControl mb={5} isInvalid={!idAvailable}>
+          <FormControl mb={2} isInvalid={!idAvailable}>
             <FormLabel>id</FormLabel>
             <Flex gap={2}>
               <Input
@@ -183,7 +183,7 @@ export function MemberSignup() {
           </FormControl>
 
           {/* password */}
-          <FormControl mb={5} isInvalid={password.length === 0}>
+          <FormControl mb={2} isInvalid={password.length === 0}>
             <FormLabel>password</FormLabel>
             <Input
               type="password"
@@ -194,7 +194,7 @@ export function MemberSignup() {
           </FormControl>
 
           {/* passwordCheck */}
-          <FormControl mb={5} isInvalid={password != passwordCheck}>
+          <FormControl mb={2} isInvalid={password != passwordCheck}>
             <FormLabel>password 확인</FormLabel>
             <Input
               type="password"
@@ -205,7 +205,7 @@ export function MemberSignup() {
           </FormControl>
 
           {/* nickName */}
-          <FormControl mb={5} isInvalid={!nickNameAvailable}>
+          <FormControl mb={2} isInvalid={!nickNameAvailable}>
             <FormLabel>nickName</FormLabel>
             <Flex gap={2}>
               <Input
@@ -221,7 +221,7 @@ export function MemberSignup() {
           </FormControl>
 
           {/* email */}
-          <FormControl mb={5} isInvalid={!emailAvailable}>
+          <FormControl mb={2} isInvalid={!emailAvailable}>
             <FormLabel>email</FormLabel>
             <Flex gap={2}>
               <Input
