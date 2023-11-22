@@ -27,6 +27,7 @@ import {
   faAnglesRight,
   faHeart,
   faImage,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
 // 페이지 이동 버튼
@@ -120,19 +121,30 @@ function SearchComponent() {
   }
 
   return (
-    <Flex>
-      <Select
-        defaultValue={"all"}
-        width={"150px"}
-        onChange={(e) => setCategory(e.target.value)}
-      >
-        <option value="all">전체</option>
-        <option value="title">제목</option>
-        <option value="content">본문</option>
-      </Select>
-      <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-      <Button onClick={handleSearch}>검색</Button>
-    </Flex>
+    <Center mt={5}>
+      <Flex gap={1}>
+        <Box>
+          <Select
+            defaultValue={"all"}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="all">전체</option>
+            <option value="title">제목</option>
+            <option value="content">본문</option>
+          </Select>
+        </Box>
+        <Box>
+          <Input
+            width={"400px"}
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+          />
+        </Box>
+        <Button onClick={handleSearch}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </Button>
+      </Flex>
+    </Center>
   );
 }
 
