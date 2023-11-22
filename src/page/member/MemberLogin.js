@@ -52,11 +52,11 @@ export function MemberLogin() {
             <Heading>로그인</Heading>
           </CardHeader>
           <CardBody>
-            <FormControl mb={5}>
+            <FormControl mb={2}>
               <FormLabel>아이디</FormLabel>
               <Input value={id} onChange={(e) => setId(e.target.value)} />
             </FormControl>
-            <FormControl>
+            <FormControl mb={2}>
               <FormLabel>암호</FormLabel>
               <Input
                 type="password"

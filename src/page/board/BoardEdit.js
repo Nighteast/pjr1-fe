@@ -97,7 +97,7 @@ export function BoardEdit() {
   return (
     <Box>
       <h1>{id}번 글 수정</h1>
-      <FormControl>
+      <FormControl mb={5}>
         <FormLabel>제목</FormLabel>
         <Input
           value={board.title}
@@ -109,7 +109,7 @@ export function BoardEdit() {
         />
       </FormControl>
 
-      <FormControl>
+      <FormControl mb={5}>
         <FormLabel>본문</FormLabel>
         <Textarea
           value={board.content}
@@ -142,7 +142,7 @@ export function BoardEdit() {
         ))}
 
       {/* 추가할 파일 선택 */}
-      <FormControl>
+      <FormControl mb={5}>
         <FormLabel>이미지</FormLabel>
         <Input
           type="file"
