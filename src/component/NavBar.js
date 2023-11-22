@@ -47,7 +47,7 @@ export function NavBar() {
   }
 
   return (
-    <Flex gap={"10px"} m={"10px"}>
+    <Flex gap={"10px"} mb={10}>
       <Button
         borderRadius={"0"}
         variant={"ghost"}
