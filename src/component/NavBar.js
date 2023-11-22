@@ -48,46 +48,64 @@ export function NavBar() {
 
   return (
     <Flex gap={"10px"} m={"10px"}>
-      <Button colorScheme="facebook" onClick={() => navigate("/")}>
-        <FontAwesomeIcon icon={faHouse} />
+      <Button
+        leftIcon={<FontAwesomeIcon icon={faHouse} />}
+        colorScheme="facebook"
+        onClick={() => navigate("/")}
+      >
         home
       </Button>
       {isAuthenticated() && (
-        <Button colorScheme="facebook" onClick={() => navigate("/write")}>
-          <FontAwesomeIcon icon={faPen} />
+        <Button
+          leftIcon={<FontAwesomeIcon icon={faPen} />}
+          colorScheme="facebook"
+          onClick={() => navigate("/write")}
+        >
           write
         </Button>
       )}
       {isAuthenticated() || (
-        <Button colorScheme="facebook" onClick={() => navigate("/signup")}>
-          <FontAwesomeIcon icon={faUserPlus} />
+        <Button
+          leftIcon={<FontAwesomeIcon icon={faUserPlus} />}
+          colorScheme="facebook"
+          onClick={() => navigate("/signup")}
+        >
           signup
         </Button>
       )}
       {isAdmin() && (
-        <Button colorScheme="facebook" onClick={() => navigate("/member/list")}>
-          <FontAwesomeIcon icon={faUsers} />
+        <Button
+          leftIcon={<FontAwesomeIcon icon={faUsers} />}
+          colorScheme="facebook"
+          onClick={() => navigate("/member/list")}
+        >
           회원목록
         </Button>
       )}
       {isAuthenticated() && (
         <Button
+          leftIcon={<FontAwesomeIcon icon={faUser} />}
           colorScheme="facebook"
           onClick={() => navigate("/member?" + urlParams.toString())}
         >
-          <FontAwesomeIcon icon={faUser} />
-          회원정보
+          {login.nickName}님
         </Button>
       )}
       {isAuthenticated() || (
-        <Button colorScheme="facebook" onClick={() => navigate("/login")}>
-          <FontAwesomeIcon icon={faRightToBracket} />
+        <Button
+          leftIcon={<FontAwesomeIcon icon={faRightToBracket} />}
+          colorScheme="facebook"
+          onClick={() => navigate("/login")}
+        >
           로그인
         </Button>
       )}
       {isAuthenticated() && (
-        <Button colorScheme="facebook" onClick={handleLogout}>
-          <FontAwesomeIcon icon={faCircleXmark} />
+        <Button
+          leftIcon={<FontAwesomeIcon icon={faCircleXmark} />}
+          colorScheme="facebook"
+          onClick={handleLogout}
+        >
           로그아웃
         </Button>
       )}
