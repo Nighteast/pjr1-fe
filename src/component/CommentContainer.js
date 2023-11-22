@@ -23,7 +23,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  CloseIcon,
+  DeleteIcon,
+  EditIcon,
+  NotAllowedIcon,
+} from "@chakra-ui/icons";
 import { LoginContext } from "./LoginProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -79,16 +84,16 @@ function CommentItem({
         });
       })
       .catch((error) => {
-        if (error.response.stat == 401 || error.response.status == 403) {
+        if (error.response.status === 401 || error.response.status === 403) {
           toast({
             description: "권한이 없습니다.",
             status: "warning",
           });
         }
 
-        if (error.response.status == 400) {
+        if (error.response.status === 400) {
           toast({
-            description: "입력값을 확인해 주세요.",
+            description: "입력값을 확인해주세요.",
             status: "warning",
           });
         }
@@ -105,7 +110,6 @@ function CommentItem({
         <Heading size="xs">{comment.memberNickName}</Heading>
         <Text fontSize="xs">{comment.ago}</Text>
       </Flex>
-
       <Flex justifyContent="space-between" alignItems="center">
         <Box flex={1}>
           <Text sx={{ whiteSpace: "pre-wrap" }} pt="2" fontSize="sm">
@@ -132,23 +136,26 @@ function CommentItem({
           <Box>
             {isEditing || (
               <Button
-                onClick={() => setIsEditing(true)}
+                variant="ghost"
                 size="xs"
                 colorScheme="purple"
+                onClick={() => setIsEditing(true)}
               >
                 <EditIcon />
               </Button>
             )}
             {isEditing && (
               <Button
-                size={"xs"}
+                variant="ghost"
+                size="xs"
                 colorScheme="gray"
                 onClick={() => setIsEditing(false)}
               >
-                <CloseIcon />
+                <NotAllowedIcon />
               </Button>
             )}
             <Button
+              variant="ghost"
               onClick={() => onDeleteModalOpen(comment.id)}
               size="xs"
               colorScheme="red"
@@ -168,6 +175,8 @@ function CommentList({
   isSubmitting,
   setIsSubmitting,
 }) {
+  const { hasAccess } = useContext(LoginContext);
+
   return (
     <Center mt={20}>
       <Card w={"lg"}>
@@ -237,7 +246,6 @@ export function CommentContainer({ boardId }) {
 
   function handleDelete() {
     // console.log(id + "번 댓글 삭제");
-
     setIsSubmitting(true);
     axios
       .delete("/api/comment/" + commentIdRef.current)
@@ -255,7 +263,7 @@ export function CommentContainer({ boardId }) {
           });
         } else {
           toast({
-            description: "댓글 삭제 중 문제가 발생하였습니다.",
+            description: "댓글 삭제 중 문제가 발생했습니다.",
             status: "error",
           });
         }
