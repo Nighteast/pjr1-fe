@@ -4,6 +4,11 @@ import axios from "axios";
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Center,
   Flex,
   FormControl,
   FormLabel,
@@ -123,74 +128,85 @@ export function BoardView() {
   }
 
   return (
-    <Box p={6}>
+    <Box>
       {/* 세로로 요소 정렬하고 간격 조절, align은 요소를 수직정렬, start는 위에서 아래로 */}
+      <Center>
+        <Card w={"lg"}>
+          <CardHeader>
+            <Flex justifyContent={"space-between"}>
+              <Heading size="xl">{board.id}번 글 보기</Heading>
+              <LikeContainer like={like} onClick={handleLike} />
+            </Flex>
+          </CardHeader>
 
-      <Flex justifyContent={"space-between"}>
-        <Heading size="xl">{board.id}번 글 보기</Heading>
-        <LikeContainer like={like} onClick={handleLike} />
-      </Flex>
+          <CardBody>
+            <FormControl mb={5}>
+              <FormLabel>제목</FormLabel>
+              <Input value={board.title} readOnly />
+            </FormControl>
 
-      <FormControl>
-        <FormLabel>제목</FormLabel>
-        <Input value={board.title} readOnly />
-      </FormControl>
+            <FormControl mb={5}>
+              <FormLabel>본문</FormLabel>
+              <Textarea value={board.content} readOnly />
+            </FormControl>
 
-      <FormControl>
-        <FormLabel>본문</FormLabel>
-        <Textarea value={board.content} readOnly />
-      </FormControl>
+            {/* 이미지 출력 */}
+            {board.files.map((file) => (
+              <Card key={file.id} my={5}>
+                <CardBody>
+                  <Image width={"100%"} src={file.url} alt={file.name} />
+                </CardBody>
+              </Card>
+            ))}
 
-      {/* 이미지 출력 */}
-      {board.files.map((file) => (
-        <Box key={file.id} my={"5px"} border={"3px solid black"}>
-          <Image width={"100%"} src={file.url} alt={file.name} />
-        </Box>
-      ))}
-      <FormControl></FormControl>
+            <FormControl mb={5}>
+              <FormLabel>작성자</FormLabel>
+              <Input value={board.nickName} readOnly />
+            </FormControl>
 
-      <FormControl>
-        <FormLabel>작성자</FormLabel>
-        <Input value={board.nickName} readOnly />
-      </FormControl>
+            <FormControl mb={5}>
+              <FormLabel>작성일시</FormLabel>
+              <Input value={formattedDate} readOnly />
+            </FormControl>
+          </CardBody>
 
-      <FormControl>
-        <FormLabel>작성일시</FormLabel>
-        <Input value={formattedDate} readOnly />
-      </FormControl>
-
-      <Flex gap={"10px"}>
-        {(hasAccess(board.writer) || isAdmin(board.writer)) && (
-          <Flex gap={"10px"}>
-            <Button
-              colorScheme="purple"
-              onClick={() => navigate("/edit/" + id)}
-            >
-              수정
-            </Button>
-            <Button colorScheme="red" onClick={onOpen}>
-              삭제
-            </Button>
-          </Flex>
-        )}
-        {/* 삭제 모달 */}
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>삭제 확인</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>삭제 하시겠습니까?</ModalBody>
-            <ModalFooter>
-              <Button onClick={onClose}>닫기</Button>
-              <Button onClick={handleDelete} colorScheme="red">
-                삭제
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </Flex>
+          <CardFooter>
+            <Box>
+              {(hasAccess(board.writer) || isAdmin(board.writer)) && (
+                <Flex gap={2}>
+                  <Button
+                    colorScheme="purple"
+                    onClick={() => navigate("/edit/" + id)}
+                  >
+                    수정
+                  </Button>
+                  <Button colorScheme="red" onClick={onOpen}>
+                    삭제
+                  </Button>
+                </Flex>
+              )}
+            </Box>
+          </CardFooter>
+        </Card>
+      </Center>
 
       <CommentContainer boardId={id} />
+
+      {/* 삭제 모달 */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>삭제 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>삭제 하시겠습니까?</ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>닫기</Button>
+            <Button onClick={handleDelete} colorScheme="red">
+              삭제
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
