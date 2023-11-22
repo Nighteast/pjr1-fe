@@ -1,4 +1,4 @@
-import { Button, Flex, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, useToast } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext, useEffect } from "react";
@@ -91,6 +91,7 @@ export function NavBar() {
           로그아웃
         </Button>
       )}
+      {isAuthenticated() && <Box>{login.nickName} 님 환영합니다.</Box>}
     </Flex>
   );
 }
