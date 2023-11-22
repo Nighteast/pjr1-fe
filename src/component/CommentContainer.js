@@ -169,24 +169,23 @@ function CommentList({
   setIsSubmitting,
 }) {
   return (
-    <Card>
-      <CardHeader>
-        <Heading size="md">댓글 리스트</Heading>
-      </CardHeader>
-      <CardBody>
-        <Stack divider={<StackDivider />} spacing="4">
-          {commentList.map((comment) => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              onDeleteModalOpen={onDeleteModalOpen}
-              setIsSubmitting={setIsSubmitting}
-              isSubmitting={isSubmitting}
-            />
-          ))}
-        </Stack>
-      </CardBody>
-    </Card>
+    <Center mt={20}>
+      <Card w={"lg"}>
+        <CardBody>
+          <Stack divider={<StackDivider />} spacing="4">
+            {commentList.map((comment) => (
+              <CommentItem
+                key={comment.id}
+                isSubmitting={isSubmitting}
+                setIsSubmitting={setIsSubmitting}
+                comment={comment}
+                onDeleteModalOpen={onDeleteModalOpen}
+              />
+            ))}
+          </Stack>
+        </CardBody>
+      </Card>
+    </Center>
   );
 }
 
