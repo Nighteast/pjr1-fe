@@ -134,11 +134,7 @@ function SearchComponent() {
           </Select>
         </Box>
         <Box>
-          <Input
-            width={"400px"}
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
+          <Input value={keyword} onChange={(e) => setKeyword(e.target.value)} />
         </Box>
         <Button onClick={handleSearch}>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
