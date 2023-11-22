@@ -3,6 +3,7 @@ import {
   Badge,
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Input,
@@ -56,49 +57,51 @@ function Pagination({ pageInfo }) {
   }
 
   return (
-    <Box>
-      {/* 최초 페이지 이동 */}
-      {pageInfo.initialPageNumber && (
-        <Button varient={"ghost"} onClick={() => navigate("/?p=" + 1)}>
-          <FontAwesomeIcon icon={faAnglesLeft} />
-        </Button>
-      )}
+    <Center mt={"5"} mb={"40"}>
+      <Box>
+        {/* 최초 페이지 이동 */}
+        {pageInfo.initialPageNumber && (
+          <Button varient={"ghost"} onClick={() => navigate("/?p=" + 1)}>
+            <FontAwesomeIcon icon={faAnglesLeft} />
+          </Button>
+        )}
 
-      {/* 이전 페이지 집합 이동 */}
-      {pageInfo.prevPageNumber && (
-        <PageButton variant={"ghost"} pageNumber={pageInfo.prevPageNumber}>
-          <FontAwesomeIcon icon={faAngleLeft} />
-        </PageButton>
-      )}
+        {/* 이전 페이지 집합 이동 */}
+        {pageInfo.prevPageNumber && (
+          <PageButton variant={"ghost"} pageNumber={pageInfo.prevPageNumber}>
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </PageButton>
+        )}
 
-      {/* 선택 페이지 이동 */}
-      {pageNumbers.map((pageNumber) => (
-        <PageButton
-          key={pageNumber}
-          colorScheme={
-            pageNumber === pageInfo.currentPageNumber ? "teal" : "gray"
-          }
-          pageNumber={pageNumber}
+        {/* 선택 페이지 이동 */}
+        {pageNumbers.map((pageNumber) => (
+          <PageButton
+            key={pageNumber}
+            colorScheme={
+              pageNumber === pageInfo.currentPageNumber ? "teal" : "gray"
+            }
+            pageNumber={pageNumber}
+          >
+            {pageNumber}
+          </PageButton>
+        ))}
+
+        {/* 다음 페이지 집합 이동 */}
+        {pageInfo.nextPageNumber && (
+          <PageButton varient={"ghost"} pageNumber={pageInfo.nextPageNumber}>
+            <FontAwesomeIcon icon={faAngleRight} />
+          </PageButton>
+        )}
+
+        {/* 마지막 페이지 이동 */}
+        <Button
+          varient={"ghost"}
+          onClick={() => navigate("/?p=" + pageInfo.lastPageNumber)}
         >
-          {pageNumber}
-        </PageButton>
-      ))}
-
-      {/* 다음 페이지 집합 이동 */}
-      {pageInfo.nextPageNumber && (
-        <PageButton varient={"ghost"} pageNumber={pageInfo.nextPageNumber}>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </PageButton>
-      )}
-
-      {/* 마지막 페이지 이동 */}
-      <Button
-        varient={"ghost"}
-        onClick={() => navigate("/?p=" + pageInfo.lastPageNumber)}
-      >
-        <FontAwesomeIcon icon={faAnglesRight} />
-      </Button>
-    </Box>
+          <FontAwesomeIcon icon={faAnglesRight} />
+        </Button>
+      </Box>
+    </Center>
   );
 }
 
