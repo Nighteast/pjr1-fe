@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Flex,
+  Heading,
   Input,
   Select,
   Spinner,
@@ -157,18 +158,18 @@ export function BoardList() {
 
   return (
     <Box>
-      <h1>게시물 목록</h1>
+      <Heading>게시물 목록</Heading>
       <Box>
         <Table variant={"simple"}>
           <Thead>
             <Tr>
-              <Th>id</Th>
-              <Th>
+              <Th w={"70px"}>id</Th>
+              <Th w={"50px"}>
                 <FontAwesomeIcon icon={faHeart} />
               </Th>
               <Th>title</Th>
-              <Th>by</Th>
-              <Th>at</Th>
+              <Th w={"150px"}>by</Th>
+              <Th w={"150px"}>at</Th>
             </Tr>
           </Thead>
           <Tbody>
