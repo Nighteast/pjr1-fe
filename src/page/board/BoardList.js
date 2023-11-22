@@ -68,7 +68,7 @@ function Pagination({ pageInfo }) {
 
         {/* 이전 페이지 집합 이동 */}
         {pageInfo.prevPageNumber && (
-          <PageButton variant={"ghost"} pageNumber={pageInfo.prevPageNumber}>
+          <PageButton varient={"ghost"} pageNumber={pageInfo.prevPageNumber}>
             <FontAwesomeIcon icon={faAngleLeft} />
           </PageButton>
         )}
