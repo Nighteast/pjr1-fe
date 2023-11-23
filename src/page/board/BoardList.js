@@ -8,6 +8,7 @@ import {
   Heading,
   Input,
   Select,
+  Spacer,
   Spinner,
   Table,
   Tbody,
@@ -201,13 +202,13 @@ export function BoardList() {
                 <Td>
                   {board.title}
                   {board.countComment > 0 && (
-                    <Badge>
+                    <Badge ml={2}>
                       <ChatIcon />
                       {board.countComment}
                     </Badge>
                   )}
                   {board.countFile > 0 && (
-                    <Badge>
+                    <Badge ml={2}>
                       <FontAwesomeIcon icon={faImage} />
                       {board.countFile}
                     </Badge>
